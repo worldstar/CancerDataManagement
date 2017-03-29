@@ -25,14 +25,14 @@
         totalRecords = CountRecordset1.getInt(1);                
     }    
 	
-PreparedStatement StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Country, Users where Country.UserID=Users.UserID order by CountryID desc limit "+start+","+showRecords+"; ");
+PreparedStatement StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Country, UsersTable where Country.UserID=UsersTable.UserID order by CountryID desc limit "+start+","+showRecords+"; ");
 
 
 if(dbServerProduct.equals("SQLServer2012")){
-  StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Country, Users where Country.UserID=Users.UserID order by CountryID desc OFFSET  "+start+" ROWS FETCH NEXT "+showRecords+" ROWS ONLY;");
+  StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Country, UsersTable where Country.UserID=UsersTable.UserID order by CountryID desc OFFSET  "+start+" ROWS FETCH NEXT "+showRecords+" ROWS ONLY;");
 }
 else if(dbServerProduct.equals("SQLServer2008")){
-  StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM (SELECT ROW_NUMBER() OVER ( ORDER BY CountryID ) AS RowNum, * FROM Country, Users where Country.UserID=Users.UserID) AS RowConstrainedResult where RowNum >= "+start+" and RowNum < "+(start+showRecords)+" ORDER BY RowNum; ");
+  StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM (SELECT ROW_NUMBER() OVER ( ORDER BY CountryID ) AS RowNum, * FROM Country, UsersTable where Country.UserID=UsersTable.UserID) AS RowConstrainedResult where RowNum >= "+start+" and RowNum < "+(start+showRecords)+" ORDER BY RowNum; ");
 }
 
 ResultSet Recordset1 = StatementRecordset1.executeQuery();

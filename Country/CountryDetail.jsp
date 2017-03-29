@@ -7,7 +7,7 @@
 <link type="text/css" rel="stylesheet" href="../stylesheets/style.css" /> 
 <%
 String CountryID = request.getParameter("CountryID");
-PreparedStatement StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Country, Users where CountryID = ? and Country.UserID=Users.UserID", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+PreparedStatement StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Country, UsersTable where CountryID = ? and Country.UserID=UsersTable.UserID", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 StatementRecordset1.setString(1, CountryID);
 ResultSet Recordset1 = StatementRecordset1.executeQuery();
 

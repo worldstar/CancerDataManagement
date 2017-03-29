@@ -7,7 +7,7 @@
 <link type="text/css" rel="stylesheet" href="../stylesheets/style.css" /> 
 <%
 String StatisticID = request.getParameter("StatisticID");
-PreparedStatement StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Statistic, Users where StatisticID = ? and Statistic.UserID=Users.UserID", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+PreparedStatement StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Statistic, UsersTable where StatisticID = ? and Statistic.UserID=UsersTable.UserID", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 StatementRecordset1.setString(1, StatisticID);
 ResultSet Recordset1 = StatementRecordset1.executeQuery();
 

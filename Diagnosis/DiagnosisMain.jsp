@@ -25,14 +25,14 @@
         totalRecords = CountRecordset1.getInt(1);                
     }    
 	
-PreparedStatement StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Diagnosis, Users, Users, Users, Users where Diagnosis.UserID=Users.UserID and Diagnosis.CancerPartID=Users.UserID and Diagnosis.StatisticID=Users.UserID and Diagnosis.DataTypeID=Users.UserID order by DiagnosisID desc limit "+start+","+showRecords+"; ");
+PreparedStatement StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Diagnosis, UsersTable, CancerPart, Statistic, DataType where Diagnosis.UserID=UsersTable.UserID and Diagnosis.CancerPartID=CancerPart.CancerPartID and Diagnosis.StatisticID=Statistic.StatisticID and Diagnosis.DataTypeID=DataType.DataTypeID order by DiagnosisID desc limit "+start+","+showRecords+"; ");
 
 
 if(dbServerProduct.equals("SQLServer2012")){
-  StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Diagnosis, Users, Users, Users, Users where Diagnosis.UserID=Users.UserID and Diagnosis.CancerPartID=Users.UserID and Diagnosis.StatisticID=Users.UserID and Diagnosis.DataTypeID=Users.UserID order by DiagnosisID desc OFFSET  "+start+" ROWS FETCH NEXT "+showRecords+" ROWS ONLY;");
+  StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Diagnosis, UsersTable, CancerPart, Statistic, DataType where Diagnosis.UserID=UsersTable.UserID and Diagnosis.CancerPartID=CancerPart.CancerPartID and Diagnosis.StatisticID=Statistic.StatisticID and Diagnosis.DataTypeID=DataType.DataTypeID order by DiagnosisID desc OFFSET  "+start+" ROWS FETCH NEXT "+showRecords+" ROWS ONLY;");
 }
 else if(dbServerProduct.equals("SQLServer2008")){
-  StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM (SELECT ROW_NUMBER() OVER ( ORDER BY DiagnosisID ) AS RowNum, * FROM Diagnosis, Users, Users, Users, Users where Diagnosis.UserID=Users.UserID and Diagnosis.CancerPartID=Users.UserID and Diagnosis.StatisticID=Users.UserID and Diagnosis.DataTypeID=Users.UserID) AS RowConstrainedResult where RowNum >= "+start+" and RowNum < "+(start+showRecords)+" ORDER BY RowNum; ");
+  StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM (SELECT ROW_NUMBER() OVER ( ORDER BY DiagnosisID ) AS RowNum, * FROM Diagnosis, UsersTable, CancerPart, Statistic, DataType where Diagnosis.UserID=UsersTable.UserID and Diagnosis.CancerPartID=CancerPart.CancerPartID and Diagnosis.StatisticID=Statistic.StatisticID and Diagnosis.DataTypeID=DataType.DataTypeID) AS RowConstrainedResult where RowNum >= "+start+" and RowNum < "+(start+showRecords)+" ORDER BY RowNum; ");
 }
 
 ResultSet Recordset1 = StatementRecordset1.executeQuery();
@@ -113,9 +113,13 @@ function deleteOnClick(_address){
         <thead>
             <tr>	
                 <th>DiagnosisName*</th>
+                <th>PatientsID*</th>
                 <th>CancerPartID*</th>
+                <th>CancerPartName</th>
                 <th>StatisticID*</th>
+                <th>StatisticName</th>
                 <th>DataTypeID*</th>
+                <th>DataTypeName</th>
                 <th>SequenceNumber*</th>
                 <th>Histology*</th>
                 <th>BehaviorCode*</th>
@@ -146,9 +150,13 @@ function deleteOnClick(_address){
 
     	   <tr>
 				<td> <%=Recordset1.getObject("DiagnosisName") %> </td>
+				<td> <%=Recordset1.getObject("PatientsID") %> </td>
 				<td> <%=Recordset1.getObject("CancerPartID") %> </td>
+				<td> <%=Recordset1.getObject("CancerPartName") %> </td>
 				<td> <%=Recordset1.getObject("StatisticID") %> </td>
+				<td> <%=Recordset1.getObject("StatisticName") %> </td>
 				<td> <%=Recordset1.getObject("DataTypeID") %> </td>
+				<td> <%=Recordset1.getObject("DataTypeName") %> </td>
 				<td> <%=Recordset1.getObject("SequenceNumber") %> </td>
 				<td> <%=Recordset1.getObject("Histology") %> </td>
 				<td> <%=Recordset1.getObject("BehaviorCode") %> </td>

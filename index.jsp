@@ -7,6 +7,5 @@
 <tr><td><a href='Region/RegionMain.jsp'>Region</a></td><td>&nbsp;</td></tr>
 <tr><td><a href='SexType/SexTypeMain.jsp'>SexType</a></td><td>&nbsp;</td></tr>
 <tr><td><a href='Statistic/StatisticMain.jsp'>Statistic</a></td><td>&nbsp;</td></tr>
-<tr><td><a href='sysdiagrams/sysdiagramsMain.jsp'>sysdiagrams</a></td><td>&nbsp;</td></tr>
-<tr><td><a href='Users/UsersMain.jsp'>Users</a></td><td>&nbsp;</td></tr>
+<tr><td><a href='UsersTable/UsersTableMain.jsp'>UsersTable</a></td><td>&nbsp;</td></tr>
 </table></body>

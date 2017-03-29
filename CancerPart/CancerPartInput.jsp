@@ -26,11 +26,7 @@ $().ready(function () {
   			    required: true,
   			    maxlength: 8
 			},
-			UserID:{
-	  		    required: true,
-  			    maxlength: 11,
-   			    digits: true 
-			}
+
         },
         messages: {
 			CancerPartName:{
@@ -41,11 +37,7 @@ $().ready(function () {
 	  		    required:"Required",
 			    maxlength: "No more than 8 characters"
 			},
-			UserID:{
-	  		    required:"Required",
-			    maxlength: "No more than 11 characters",
- 	  		    digits: "  Digits" 
-			}                 
+                 
         }
     });
 });
@@ -80,22 +72,6 @@ $().ready(function () {
     		<tr>
     		  <td>createdDate*</td>
     		  <td><input name="createdDate" type="text" id="createdDate" size="30" /></td>
-    		</tr>
-    		
-<%
-PreparedStatement UserIDStatement = ConnRecordset1.prepareStatement("SELECT * FROM Users order by UserID desc");
-ResultSet UserIDRecordset1 = UserIDStatement.executeQuery();
-%>    		<tr>
-    		  <td>UserID*</td>
-    		  <td><select name="UserID" id="UserID" >
-<% 
-while(UserIDRecordset1.next()){ 
-%>
-    		     <option value="<%=UserIDRecordset1.getString("UserID")%>" ><%=UserIDRecordset1.getString("UserName")%></option>
-<%  
-} 
-%>
-</select> <a href='../Users/UsersMain.jsp' target='_blank'>Add</a></td>
     		</tr>
      
             </tbody>      

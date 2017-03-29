@@ -13,6 +13,7 @@
     		public Timestamp DateOfBirth = new Timestamp(date.getTime());
     		public int RegionID = 0;
     		public int CountryID = 0;
+    		public Timestamp createdDate = new Timestamp(date.getTime());
     		public int UserID = 0;
                
             
@@ -51,6 +52,7 @@
     	responseClass1.DateOfBirth = Recordset1.getString("DateOfBirth") != null? timestamp1.valueOf(Recordset1.getString("DateOfBirth")): null;
 	responseClass1.RegionID = Recordset1.getInt("RegionID");
 	responseClass1.CountryID = Recordset1.getInt("CountryID");
+    	responseClass1.createdDate = Recordset1.getString("createdDate") != null? timestamp1.valueOf(Recordset1.getString("createdDate")): null;
 	responseClass1.UserID = Recordset1.getInt("UserID");
    
 

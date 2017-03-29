@@ -6,7 +6,7 @@
 <link type="text/css" rel="stylesheet" href="../stylesheets/style.css" /> 
 <%
 String CountryID = request.getParameter("CountryID");
-PreparedStatement StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Country, Users where CountryID = ? and Country.UserID=Users.UserID", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+PreparedStatement StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Country, UsersTable where CountryID = ? and Country.UserID=UsersTable.UserID", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 StatementRecordset1.setString(1, CountryID);
 ResultSet Recordset1 = StatementRecordset1.executeQuery();
 ResultSetMetaData rsMetaData = Recordset1.getMetaData();
@@ -40,11 +40,7 @@ $().ready(function () {
                  required: true,
                maxlength: 8
           },
-          UserID:{
-             required: true,
-               maxlength: 11,
-                digits: true 
-          }
+
         },
         messages: {
            CountryName:{
@@ -55,11 +51,7 @@ $().ready(function () {
              required:"Required",
                 maxlength: "No more than 8 characters"
           },
-           UserID:{
-             required:"Required",
-                maxlength: "No more than 11 characters",
-                digits: "  Digits" 
-          }     
+     
         }
     });
 });
@@ -95,22 +87,6 @@ $().ready(function () {
             <td>createdDate*</td>
            <td><input name="createdDate" type="text" id="createdDate" size="30" value="<%=Recordset1.getObject("createdDate")%>" /></td>
            </tr>
-           
-<%
-PreparedStatement UserIDStatement = ConnRecordset1.prepareStatement("SELECT * FROM Users order by UserID desc");
-ResultSet UserIDRecordset1 = UserIDStatement.executeQuery();
-%>          <tr>
-            <td>UserID*</td>
-           <td><select name="UserID" id="UserID" >
-<% 
-while(UserIDRecordset1.next()){ 
-%>
-              <option value="<%=UserIDRecordset1.getString("UserID")%>"   <%=UserIDRecordset1.getInt("UserID") == Recordset1.getInt("UserID") ? "selected": ""%>>                    <%=UserIDRecordset1.getString("UserName")%></option>
-<%  
-} 
-%>
-</select> <a href='../Users/UsersMain.jsp' target='_blank'>Add</a></td>
-         </tr>
         
             </tbody>               
         </table>      

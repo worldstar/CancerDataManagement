@@ -15,7 +15,7 @@
 	pageIndex pageIndex1 = new pageIndex();
 		
 	PreparedStatement StatementRecordset1 = 
-	ConnRecordset1.prepareStatement("SELECT count(*) FROM DataType, Users where (DataTypeName like ?) and DataType.UserID=Users.UserID");
+	ConnRecordset1.prepareStatement("SELECT count(*) FROM DataType, UsersTable where (DataTypeName like ?) and DataType.UserID=UsersTable.UserID");
             
   if(request.getParameter("startRecord") != null){//First entry		
   	start = Integer.parseInt(request.getParameter("startRecord"));		  
@@ -29,13 +29,13 @@
        totalRecords = CountRecordset1.getInt(1);               
   }
       
-  StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM DataType, Users where (DataTypeName like ?) and DataType.UserID=Users.UserID order by DataTypeID limit "+start+","+showRecords+"; ");
+  StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM DataType, UsersTable where (DataTypeName like ?) and DataType.UserID=UsersTable.UserID order by DataTypeID limit "+start+","+showRecords+"; ");
 
   if(dbServerProduct.equals("SQLServer2012")){
-    StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM DataType, Users where (DataTypeName like ?) and DataType.UserID=Users.UserID order by DataTypeID desc OFFSET  "+start+" ROWS FETCH NEXT "+showRecords+" ROWS ONLY;");
+    StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM DataType, UsersTable where (DataTypeName like ?) and DataType.UserID=UsersTable.UserID order by DataTypeID desc OFFSET  "+start+" ROWS FETCH NEXT "+showRecords+" ROWS ONLY;");
   }
   else if(dbServerProduct.equals("SQLServer2008")){
-    StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM (SELECT ROW_NUMBER() OVER ( ORDER BY DataTypeID ) AS RowNum, * FROM DataType, Users where (DataTypeName like ?) and DataType.UserID=Users.UserID) AS RowConstrainedResult where RowNum >= "+start+" and RowNum < "+(start+showRecords)+" ORDER BY RowNum; ");
+    StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM (SELECT ROW_NUMBER() OVER ( ORDER BY DataTypeID ) AS RowNum, * FROM DataType, UsersTable where (DataTypeName like ?) and DataType.UserID=UsersTable.UserID) AS RowConstrainedResult where RowNum >= "+start+" and RowNum < "+(start+showRecords)+" ORDER BY RowNum; ");
   }
 
       StatementRecordset1.setString(1, "%"+SearchContent+"%");

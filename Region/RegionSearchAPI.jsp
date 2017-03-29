@@ -31,7 +31,7 @@
     pageIndex pageIndex1 = new pageIndex();
         
     PreparedStatement StatementRecordset1 = 
-    ConnRecordset1.prepareStatement("SELECT count(*) FROM Region, Users where SexTypeName like ?");
+    ConnRecordset1.prepareStatement("SELECT count(*) FROM Region, UsersTable where SexTypeName like ?");
             
     if(request.getParameter("startRecord") != null){//First entry       
         start = Integer.parseInt(request.getParameter("startRecord"));        
@@ -45,13 +45,13 @@
          totalRecords = CountRecordset1.getInt(1);               
     }
         
-    StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Region, Users where SexTypeName like ? order by SexTypeID limit "+start+","+showRecords+"; ");
+    StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Region, UsersTable where SexTypeName like ? order by SexTypeID limit "+start+","+showRecords+"; ");
 
     if(dbServerProduct.equals("SQLServer2012")){
-      StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Region, Users where SexTypeName like ? order by SexTypeID desc OFFSET  "+start+" ROWS FETCH NEXT "+showRecords+" ROWS ONLY;");
+      StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Region, UsersTable where SexTypeName like ? order by SexTypeID desc OFFSET  "+start+" ROWS FETCH NEXT "+showRecords+" ROWS ONLY;");
     }
     else if(dbServerProduct.equals("SQLServer2008")){
-      StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM (SELECT ROW_NUMBER() OVER ( ORDER BY SexTypeID ) AS RowNum, * FROM Region, Users where SexTypeName like ?) AS RowConstrainedResult where RowNum >= "+start+" and RowNum < "+(start+showRecords)+" ORDER BY RowNum; ");
+      StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM (SELECT ROW_NUMBER() OVER ( ORDER BY SexTypeID ) AS RowNum, * FROM Region, UsersTable where SexTypeName like ?) AS RowConstrainedResult where RowNum >= "+start+" and RowNum < "+(start+showRecords)+" ORDER BY RowNum; ");
     }
 
         StatementRecordset1.setString(1, "%"+SearchContent+"%");

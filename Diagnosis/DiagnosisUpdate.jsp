@@ -6,7 +6,7 @@
 <link type="text/css" rel="stylesheet" href="../stylesheets/style.css" /> 
 <%
 String DiagnosisID = request.getParameter("DiagnosisID");
-PreparedStatement StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Diagnosis, Users, Users, Users, Users where DiagnosisID = ? and Diagnosis.DataTypeID=Users.UserID", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+PreparedStatement StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Diagnosis, UsersTable, CancerPart, Statistic, DataType where DiagnosisID = ? and Diagnosis.DataTypeID=DataType.DataTypeID", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 StatementRecordset1.setString(1, DiagnosisID);
 ResultSet Recordset1 = StatementRecordset1.executeQuery();
 ResultSetMetaData rsMetaData = Recordset1.getMetaData();
@@ -36,19 +36,24 @@ $().ready(function () {
                  required: true,
                maxlength: 20
           },
+          PatientsID:{
+             required: true,
+               maxlength: 10,
+                digits: true 
+          },
           CancerPartID:{
              required: true,
-               maxlength: 11,
+               maxlength: 6,
                 digits: true 
           },
           StatisticID:{
              required: true,
-               maxlength: 11,
+               maxlength: 6,
                 digits: true 
           },
           DataTypeID:{
              required: true,
-               maxlength: 11,
+               maxlength: 6,
                 digits: true 
           },
           SequenceNumber:{
@@ -97,11 +102,11 @@ $().ready(function () {
           },
           createdDate:{
                  required: true,
-               maxlength: 8
+               maxlength: 21
           },
           UserID:{
              required: true,
-               maxlength: 11,
+               maxlength: 5,
                 digits: true 
           }
         },
@@ -110,19 +115,24 @@ $().ready(function () {
              required:"Required",
                 maxlength: "No more than 20 characters"
           },
+           PatientsID:{
+             required:"Required",
+                maxlength: "No more than 10 characters",
+                digits: "  Digits" 
+          },
            CancerPartID:{
              required:"Required",
-                maxlength: "No more than 11 characters",
+                maxlength: "No more than 6 characters",
                 digits: "  Digits" 
           },
            StatisticID:{
              required:"Required",
-                maxlength: "No more than 11 characters",
+                maxlength: "No more than 6 characters",
                 digits: "  Digits" 
           },
            DataTypeID:{
              required:"Required",
-                maxlength: "No more than 11 characters",
+                maxlength: "No more than 6 characters",
                 digits: "  Digits" 
           },
            SequenceNumber:{
@@ -171,11 +181,11 @@ $().ready(function () {
           },
            createdDate:{
              required:"Required",
-                maxlength: "No more than 8 characters"
+                maxlength: "No more than 21 characters"
           },
            UserID:{
              required:"Required",
-                maxlength: "No more than 11 characters",
+                maxlength: "No more than 5 characters",
                 digits: "  Digits" 
           }     
         }
@@ -210,17 +220,57 @@ $().ready(function () {
            <td><input name="DiagnosisName" type="text" id="DiagnosisName" size="30" value="<%=Recordset1.getObject("DiagnosisName")%>" /></td>
            </tr>
           <tr>
+            <td>PatientsID*</td>
+           <td><input name="PatientsID" type="text" id="PatientsID" size="30" value="<%=Recordset1.getObject("PatientsID")%>" /></td>
+           </tr>
+           
+<%
+PreparedStatement CancerPartIDStatement = ConnRecordset1.prepareStatement("SELECT * FROM CancerPart order by CancerPartID desc");
+ResultSet CancerPartIDRecordset1 = CancerPartIDStatement.executeQuery();
+%>          <tr>
             <td>CancerPartID*</td>
-           <td><input name="CancerPartID" type="text" id="CancerPartID" size="30" value="<%=Recordset1.getObject("CancerPartID")%>" /></td>
-           </tr>
-          <tr>
+           <td><select name="CancerPartID" id="CancerPartID" >
+<% 
+while(CancerPartIDRecordset1.next()){ 
+%>
+              <option value="<%=CancerPartIDRecordset1.getString("CancerPartID")%>"   <%=CancerPartIDRecordset1.getInt("CancerPartID") == Recordset1.getInt("CancerPartID") ? "selected": ""%>>                    <%=CancerPartIDRecordset1.getString("CancerPartName")%></option>
+<%  
+} 
+%>
+</select> <a href='../CancerPart/CancerPartMain.jsp' target='_blank'>Add</a></td>
+         </tr>
+           
+<%
+PreparedStatement StatisticIDStatement = ConnRecordset1.prepareStatement("SELECT * FROM Statistic order by StatisticID desc");
+ResultSet StatisticIDRecordset1 = StatisticIDStatement.executeQuery();
+%>          <tr>
             <td>StatisticID*</td>
-           <td><input name="StatisticID" type="text" id="StatisticID" size="30" value="<%=Recordset1.getObject("StatisticID")%>" /></td>
-           </tr>
-          <tr>
+           <td><select name="StatisticID" id="StatisticID" >
+<% 
+while(StatisticIDRecordset1.next()){ 
+%>
+              <option value="<%=StatisticIDRecordset1.getString("StatisticID")%>"   <%=StatisticIDRecordset1.getInt("StatisticID") == Recordset1.getInt("StatisticID") ? "selected": ""%>>                    <%=StatisticIDRecordset1.getString("StatisticName")%></option>
+<%  
+} 
+%>
+</select> <a href='../Statistic/StatisticMain.jsp' target='_blank'>Add</a></td>
+         </tr>
+           
+<%
+PreparedStatement DataTypeIDStatement = ConnRecordset1.prepareStatement("SELECT * FROM DataType order by DataTypeID desc");
+ResultSet DataTypeIDRecordset1 = DataTypeIDStatement.executeQuery();
+%>          <tr>
             <td>DataTypeID*</td>
-           <td><input name="DataTypeID" type="text" id="DataTypeID" size="30" value="<%=Recordset1.getObject("DataTypeID")%>" /></td>
-           </tr>
+           <td><select name="DataTypeID" id="DataTypeID" >
+<% 
+while(DataTypeIDRecordset1.next()){ 
+%>
+              <option value="<%=DataTypeIDRecordset1.getString("DataTypeID")%>"   <%=DataTypeIDRecordset1.getInt("DataTypeID") == Recordset1.getInt("DataTypeID") ? "selected": ""%>>                    <%=DataTypeIDRecordset1.getString("DataTypeName")%></option>
+<%  
+} 
+%>
+</select> <a href='../DataType/DataTypeMain.jsp' target='_blank'>Add</a></td>
+         </tr>
           <tr>
             <td>SequenceNumber*</td>
            <td><input name="SequenceNumber" type="text" id="SequenceNumber" size="30" value="<%=Recordset1.getObject("SequenceNumber")%>" /></td>
@@ -265,13 +315,26 @@ $().ready(function () {
             <td>VitalStatus*</td>
            <td><input name="VitalStatus" type="text" id="VitalStatus" size="30" value="<%=Recordset1.getObject("VitalStatus")%>" /></td>
            </tr>
-          <tr>
+ 
+<script>
+$(function() {
+   //$( "#CreateDate" ).datepicker();
+   //$( "#CreateDate" ).datetimepicker();
+   var opt={dateFormat: 'yy-mm-dd',
+             hourMin: 6,
+            hourMax: 24,
+             showSecond: true,
+             timeFormat: 'HH:mm:ss'
+    };   
+   $("#createdDate").datetimepicker(opt);
+});
+</script>          <tr>
             <td>createdDate*</td>
-           <td><input name="createdDate" type="text" id="createdDate" size="30" value="<%=Recordset1.getObject("createdDate")%>" /></td>
+           <td><input name="createdDate" type="text" id="createdDate" size="30" value="<%=Recordset1.getObject("createdDate")%>"/></td>
            </tr>
            
 <%
-PreparedStatement UserIDStatement = ConnRecordset1.prepareStatement("SELECT * FROM Users order by UserID desc");
+PreparedStatement UserIDStatement = ConnRecordset1.prepareStatement("SELECT * FROM UsersTable order by UserID desc");
 ResultSet UserIDRecordset1 = UserIDStatement.executeQuery();
 %>          <tr>
             <td>UserID*</td>
@@ -283,7 +346,7 @@ while(UserIDRecordset1.next()){
 <%  
 } 
 %>
-</select> <a href='../Users/UsersMain.jsp' target='_blank'>Add</a></td>
+</select> <a href='../UsersTable/UsersTableMain.jsp' target='_blank'>Add</a></td>
          </tr>
         
             </tbody>               

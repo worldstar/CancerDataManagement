@@ -10,6 +10,7 @@
             String message = "Successful.";
 
     		public String DiagnosisName = "";
+    		public int PatientsID = 0;
     		public int CancerPartID = 0;
     		public int StatisticID = 0;
     		public int DataTypeID = 0;
@@ -22,6 +23,7 @@
     		public String cN = "";
     		public String cM = "";
     		public String cStage = "";
+    		public Timestamp createdDate = new Timestamp((new java.util.Date()).getTime());
     		public int UserID = 0;
                
             
@@ -43,7 +45,7 @@
     pageIndex pageIndex1 = new pageIndex();
         
     PreparedStatement StatementRecordset1 = 
-    ConnRecordset1.prepareStatement("SELECT count(*) FROM Diagnosis, Users, Users, Users, Users where DiagnosisName like ? or SequenceNumber like ? or Histology like ? or BehaviorCode like ? or Differentiation like ? or TumorSize like ? or cT like ? or cN like ? or cM like ? or cStage like ?");
+    ConnRecordset1.prepareStatement("SELECT count(*) FROM Diagnosis, UsersTable, CancerPart, Statistic, DataType where DiagnosisName like ? or SequenceNumber like ? or Histology like ? or BehaviorCode like ? or Differentiation like ? or TumorSize like ? or cT like ? or cN like ? or cM like ? or cStage like ?");
             
     if(request.getParameter("startRecord") != null){//First entry       
         start = Integer.parseInt(request.getParameter("startRecord"));        
@@ -66,13 +68,13 @@
          totalRecords = CountRecordset1.getInt(1);               
     }
         
-    StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Diagnosis, Users, Users, Users, Users where DiagnosisName like ? or SequenceNumber like ? or Histology like ? or BehaviorCode like ? or Differentiation like ? or TumorSize like ? or cT like ? or cN like ? or cM like ? or cStage like ? order by DiagnosisID limit "+start+","+showRecords+"; ");
+    StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Diagnosis, UsersTable, CancerPart, Statistic, DataType where DiagnosisName like ? or SequenceNumber like ? or Histology like ? or BehaviorCode like ? or Differentiation like ? or TumorSize like ? or cT like ? or cN like ? or cM like ? or cStage like ? order by DiagnosisID limit "+start+","+showRecords+"; ");
 
     if(dbServerProduct.equals("SQLServer2012")){
-      StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Diagnosis, Users, Users, Users, Users where DiagnosisName like ? or SequenceNumber like ? or Histology like ? or BehaviorCode like ? or Differentiation like ? or TumorSize like ? or cT like ? or cN like ? or cM like ? or cStage like ? order by DiagnosisID desc OFFSET  "+start+" ROWS FETCH NEXT "+showRecords+" ROWS ONLY;");
+      StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Diagnosis, UsersTable, CancerPart, Statistic, DataType where DiagnosisName like ? or SequenceNumber like ? or Histology like ? or BehaviorCode like ? or Differentiation like ? or TumorSize like ? or cT like ? or cN like ? or cM like ? or cStage like ? order by DiagnosisID desc OFFSET  "+start+" ROWS FETCH NEXT "+showRecords+" ROWS ONLY;");
     }
     else if(dbServerProduct.equals("SQLServer2008")){
-      StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM (SELECT ROW_NUMBER() OVER ( ORDER BY DiagnosisID ) AS RowNum, * FROM Diagnosis, Users, Users, Users, Users where DiagnosisName like ? or SequenceNumber like ? or Histology like ? or BehaviorCode like ? or Differentiation like ? or TumorSize like ? or cT like ? or cN like ? or cM like ? or cStage like ?) AS RowConstrainedResult where RowNum >= "+start+" and RowNum < "+(start+showRecords)+" ORDER BY RowNum; ");
+      StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM (SELECT ROW_NUMBER() OVER ( ORDER BY DiagnosisID ) AS RowNum, * FROM Diagnosis, UsersTable, CancerPart, Statistic, DataType where DiagnosisName like ? or SequenceNumber like ? or Histology like ? or BehaviorCode like ? or Differentiation like ? or TumorSize like ? or cT like ? or cN like ? or cM like ? or cStage like ?) AS RowConstrainedResult where RowNum >= "+start+" and RowNum < "+(start+showRecords)+" ORDER BY RowNum; ");
     }
 
         StatementRecordset1.setString(1, "%"+SearchContent+"%");
@@ -98,6 +100,7 @@
 	while(Recordset1.next()){
 	    responseClass responseClass1 = new responseClass();
     	responseClass1.DiagnosisName =  Recordset1.getString("DiagnosisName");
+    	responseClass1.PatientsID = Recordset1.getInt("PatientsID");
     	responseClass1.CancerPartID = Recordset1.getInt("CancerPartID");
     	responseClass1.StatisticID = Recordset1.getInt("StatisticID");
     	responseClass1.DataTypeID = Recordset1.getInt("DataTypeID");
@@ -110,6 +113,7 @@
     	responseClass1.cN =  Recordset1.getString("cN");
     	responseClass1.cM =  Recordset1.getString("cM");
     	responseClass1.cStage =  Recordset1.getString("cStage");
+    	responseClass1.createdDate = Recordset1.getString("createdDate") != null? timestamp1.valueOf(Recordset1.getString("createdDate")): null;
     	responseClass1.UserID = Recordset1.getInt("UserID");
     	collection.add(responseClass1);
     	resultFound = true;    }       

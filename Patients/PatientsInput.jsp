@@ -33,23 +33,19 @@ $().ready(function () {
 			},
 			RegionID:{
 	  		    required: true,
-  			    maxlength: 11,
+  			    maxlength: 3,
    			    digits: true 
 			},
 			CountryID:{
 	  		    required: true,
-  			    maxlength: 11,
+  			    maxlength: 5,
    			    digits: true 
 			},
 			createdDate:{
   			    required: true,
-  			    maxlength: 8
+  			    maxlength: 19
 			},
-			UserID:{
-	  		    required: true,
-  			    maxlength: 11,
-   			    digits: true 
-			}
+
         },
         messages: {
 			PatientsName:{
@@ -67,23 +63,19 @@ $().ready(function () {
 			},
 			RegionID:{
 	  		    required:"Required",
-			    maxlength: "No more than 11 characters",
+			    maxlength: "No more than 3 characters",
  	  		    digits: "  Digits" 
 			},
 			CountryID:{
 	  		    required:"Required",
-			    maxlength: "No more than 11 characters",
+			    maxlength: "No more than 5 characters",
  	  		    digits: "  Digits" 
 			},
 			createdDate:{
 	  		    required:"Required",
-			    maxlength: "No more than 8 characters"
+			    maxlength: "No more than 19 characters"
 			},
-			UserID:{
-	  		    required:"Required",
-			    maxlength: "No more than 11 characters",
- 	  		    digits: "  Digits" 
-			}                 
+                 
         }
     });
 });
@@ -115,9 +107,21 @@ $().ready(function () {
     		  <td>PatientsName*</td>
     		  <td><input name="PatientsName" type="text" id="PatientsName" size="30" /></td>
     		</tr>
-    		<tr>
+    		
+<%
+PreparedStatement SexTypeIDStatement = ConnRecordset1.prepareStatement("SELECT * FROM SexType order by SexTypeID desc");
+ResultSet SexTypeIDRecordset1 = SexTypeIDStatement.executeQuery();
+%>    		<tr>
     		  <td>SexTypeID*</td>
-    		  <td><input name="SexTypeID" type="text" id="SexTypeID" size="30" /></td>
+    		  <td><select name="SexTypeID" id="SexTypeID" >
+<% 
+while(SexTypeIDRecordset1.next()){ 
+%>
+    		     <option value="<%=SexTypeIDRecordset1.getString("SexTypeID")%>" ><%=SexTypeIDRecordset1.getString("SexTypeName")%></option>
+<%  
+} 
+%>
+</select> <a href='../SexType/SexTypeMain.jsp' target='_blank'>Add</a></td>
     		</tr>
  
 <script>
@@ -140,29 +144,38 @@ $(function() {
     		  <td>RegionID*</td>
     		  <td><input name="RegionID" type="text" id="RegionID" size="30" /></td>
     		</tr>
-    		<tr>
-    		  <td>CountryID*</td>
-    		  <td><input name="CountryID" type="text" id="CountryID" size="30" /></td>
-    		</tr>
-    		<tr>
-    		  <td>createdDate*</td>
-    		  <td><input name="createdDate" type="text" id="createdDate" size="30" /></td>
-    		</tr>
     		
 <%
-PreparedStatement UserIDStatement = ConnRecordset1.prepareStatement("SELECT * FROM Users order by UserID desc");
-ResultSet UserIDRecordset1 = UserIDStatement.executeQuery();
+PreparedStatement CountryIDStatement = ConnRecordset1.prepareStatement("SELECT * FROM Country order by CountryID desc");
+ResultSet CountryIDRecordset1 = CountryIDStatement.executeQuery();
 %>    		<tr>
-    		  <td>UserID*</td>
-    		  <td><select name="UserID" id="UserID" >
+    		  <td>CountryID*</td>
+    		  <td><select name="CountryID" id="CountryID" >
 <% 
-while(UserIDRecordset1.next()){ 
+while(CountryIDRecordset1.next()){ 
 %>
-    		     <option value="<%=UserIDRecordset1.getString("UserID")%>" ><%=UserIDRecordset1.getString("UserName")%></option>
+    		     <option value="<%=CountryIDRecordset1.getString("CountryID")%>" ><%=CountryIDRecordset1.getString("CountryName")%></option>
 <%  
 } 
 %>
-</select> <a href='../Users/UsersMain.jsp' target='_blank'>Add</a></td>
+</select> <a href='../Country/CountryMain.jsp' target='_blank'>Add</a></td>
+    		</tr>
+ 
+<script>
+$(function() {
+   //$( "#CreateDate" ).datepicker();
+   //$( "#CreateDate" ).datetimepicker();
+	var opt={dateFormat: 'yy-mm-dd',
+             hourMin: 6,
+			 hourMax: 24,
+             showSecond: true,
+             timeFormat: 'HH:mm:ss'
+    };   
+   $("#createdDate").datetimepicker(opt);
+});
+</script>    		<tr>
+    		  <td>createdDate*</td>
+    		  <td><input name="createdDate" type="text" id="createdDate" size="30" /></td>
     		</tr>
      
             </tbody>      

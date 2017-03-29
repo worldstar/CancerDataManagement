@@ -7,7 +7,7 @@
 <link type="text/css" rel="stylesheet" href="../stylesheets/style.css" /> 
 <%
 String PatientsID = request.getParameter("PatientsID");
-PreparedStatement StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Patients, Users, Users, Users, Users where PatientsID = ? and Patients.CountryID=Users.UserID", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+PreparedStatement StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Patients, Country, SexType where PatientsID = ? and Patients.SexTypeID=SexType.SexTypeID", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 StatementRecordset1.setString(1, PatientsID);
 ResultSet Recordset1 = StatementRecordset1.executeQuery();
 
@@ -59,6 +59,10 @@ else{//Move to the first record. It is naturally this record is the first one.
             <tr>
     		  <td>SexTypeID*</td>
     		      		  <td> <%=Recordset1.getObject("SexTypeID") %> </td>
+    		<tr>
+    		  <td>SexTypeName</td>
+    		  <td><%=Recordset1.getObject("SexTypeName")%></td>
+    		</tr>
 
       		</tr>
             <tr>
@@ -74,6 +78,10 @@ else{//Move to the first record. It is naturally this record is the first one.
             <tr>
     		  <td>CountryID*</td>
     		      		  <td> <%=Recordset1.getObject("CountryID") %> </td>
+    		<tr>
+    		  <td>CountryName</td>
+    		  <td><%=Recordset1.getObject("CountryName")%></td>
+    		</tr>
 
       		</tr>
             <tr>
@@ -84,10 +92,6 @@ else{//Move to the first record. It is naturally this record is the first one.
             <tr>
     		  <td>UserID*</td>
     		      		  <td> <%=Recordset1.getObject("UserID") %> </td>
-    		<tr>
-    		  <td>UserName</td>
-    		  <td><%=Recordset1.getObject("UserName")%></td>
-    		</tr>
 
       		</tr>
  

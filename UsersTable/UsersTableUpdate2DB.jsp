@@ -2,8 +2,8 @@
 <%@ include file="../Connections/Conns.jsp" %>
 <%@ include file="../checkAccessLevel.jsp" %>
 <%
-    String sql = "update Users set UserName = ?, UserAccount = ?, Userpassword = ?, createdDate = ?, CreatedUserID = ?, isValidated = ? where UserID = ?";
-    String sessionUpdateID = (String) session.getAttribute("UsersUpdateID");
+    String sql = "update UsersTable set UserName = ?, UserAccount = ?, Userpassword = ?, createdDate = ?, CreatedUserID = ?, isValidated = ? where UserID = ?";
+    String sessionUpdateID = (String) session.getAttribute("UsersTableUpdateID");
     
     if(sessionUpdateID == null){
     	response.sendRedirect("/notFound.jsp"); 
@@ -36,6 +36,6 @@
     preparedStatement1.executeUpdate();
     ConnRecordset1.close();  
     
-    response.sendRedirect("UsersMain.jsp");      
+    response.sendRedirect("UsersTableMain.jsp");      
 %>
 

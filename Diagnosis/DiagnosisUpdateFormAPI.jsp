@@ -9,6 +9,7 @@
 
     		java.util.Date date= new java.util.Date();
     		public String DiagnosisName = "";
+    		public int PatientsID = 0;
     		public int CancerPartID = 0;
     		public int StatisticID = 0;
     		public int DataTypeID = 0;
@@ -21,6 +22,7 @@
     		public String cN = "";
     		public String cM = "";
     		public String cStage = "";
+    		public Timestamp createdDate = new Timestamp(date.getTime());
     		public int UserID = 0;
                
             
@@ -55,6 +57,7 @@
     java.util.Date date= new java.util.Date();	
 	Timestamp timestamp1 = new Timestamp(date.getTime());   
 	responseClass1.DiagnosisName =  Recordset1.getString("DiagnosisName");
+	responseClass1.PatientsID = Recordset1.getInt("PatientsID");
 	responseClass1.CancerPartID = Recordset1.getInt("CancerPartID");
 	responseClass1.StatisticID = Recordset1.getInt("StatisticID");
 	responseClass1.DataTypeID = Recordset1.getInt("DataTypeID");
@@ -67,6 +70,7 @@
 	responseClass1.cN =  Recordset1.getString("cN");
 	responseClass1.cM =  Recordset1.getString("cM");
 	responseClass1.cStage =  Recordset1.getString("cStage");
+    	responseClass1.createdDate = Recordset1.getString("createdDate") != null? timestamp1.valueOf(Recordset1.getString("createdDate")): null;
 	responseClass1.UserID = Recordset1.getInt("UserID");
    
 

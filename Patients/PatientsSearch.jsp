@@ -15,7 +15,7 @@
 	pageIndex pageIndex1 = new pageIndex();
 		
 	PreparedStatement StatementRecordset1 = 
-	ConnRecordset1.prepareStatement("SELECT count(*) FROM Patients, Users, Users, Users, Users where (PatientsName like ?) and Patients.UserID=Users.UserID and Patients.SexTypeID=Users.UserID and Patients.RegionID=Users.UserID and Patients.CountryID=Users.UserID");
+	ConnRecordset1.prepareStatement("SELECT count(*) FROM Patients, Country, SexType where (PatientsName like ?) and Patients.CountryID=Country.CountryID and Patients.SexTypeID=SexType.SexTypeID");
             
   if(request.getParameter("startRecord") != null){//First entry		
   	start = Integer.parseInt(request.getParameter("startRecord"));		  
@@ -29,13 +29,13 @@
        totalRecords = CountRecordset1.getInt(1);               
   }
       
-  StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Patients, Users, Users, Users, Users where (PatientsName like ?) and Patients.UserID=Users.UserID and Patients.SexTypeID=Users.UserID and Patients.RegionID=Users.UserID and Patients.CountryID=Users.UserID order by PatientsID limit "+start+","+showRecords+"; ");
+  StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Patients, Country, SexType where (PatientsName like ?) and Patients.CountryID=Country.CountryID and Patients.SexTypeID=SexType.SexTypeID order by PatientsID limit "+start+","+showRecords+"; ");
 
   if(dbServerProduct.equals("SQLServer2012")){
-    StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Patients, Users, Users, Users, Users where (PatientsName like ?) and Patients.UserID=Users.UserID and Patients.SexTypeID=Users.UserID and Patients.RegionID=Users.UserID and Patients.CountryID=Users.UserID order by PatientsID desc OFFSET  "+start+" ROWS FETCH NEXT "+showRecords+" ROWS ONLY;");
+    StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Patients, Country, SexType where (PatientsName like ?) and Patients.CountryID=Country.CountryID and Patients.SexTypeID=SexType.SexTypeID order by PatientsID desc OFFSET  "+start+" ROWS FETCH NEXT "+showRecords+" ROWS ONLY;");
   }
   else if(dbServerProduct.equals("SQLServer2008")){
-    StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM (SELECT ROW_NUMBER() OVER ( ORDER BY PatientsID ) AS RowNum, * FROM Patients, Users, Users, Users, Users where (PatientsName like ?) and Patients.UserID=Users.UserID and Patients.SexTypeID=Users.UserID and Patients.RegionID=Users.UserID and Patients.CountryID=Users.UserID) AS RowConstrainedResult where RowNum >= "+start+" and RowNum < "+(start+showRecords)+" ORDER BY RowNum; ");
+    StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM (SELECT ROW_NUMBER() OVER ( ORDER BY PatientsID ) AS RowNum, * FROM Patients, Country, SexType where (PatientsName like ?) and Patients.CountryID=Country.CountryID and Patients.SexTypeID=SexType.SexTypeID) AS RowConstrainedResult where RowNum >= "+start+" and RowNum < "+(start+showRecords)+" ORDER BY RowNum; ");
   }
 
       StatementRecordset1.setString(1, "%"+SearchContent+"%");
@@ -91,12 +91,13 @@ $().ready(function () {
             <tr>	
                 <th>PatientsName*</th>
                 <th>SexTypeID*</th>
+                <th>SexTypeName</th>
                 <th>DateOfBirth*</th>
                 <th>RegionID*</th>
                 <th>CountryID*</th>
+                <th>CountryName</th>
                 <th>createdDate*</th>
                 <th>UserID*</th>
-                <th>UserName</th>
                 <th> Content </th>
                 <th> Management </th>
 
@@ -113,12 +114,13 @@ $().ready(function () {
 <tr>
 				<td> <%=Recordset1.getObject("PatientsName") %> </td>
 				<td> <%=Recordset1.getObject("SexTypeID") %> </td>
+				<td> <%=Recordset1.getObject("SexTypeName") %> </td>
 				<td> <%=Recordset1.getObject("DateOfBirth") %> </td>
 				<td> <%=Recordset1.getObject("RegionID") %> </td>
 				<td> <%=Recordset1.getObject("CountryID") %> </td>
+				<td> <%=Recordset1.getObject("CountryName") %> </td>
 				<td> <%=Recordset1.getObject("createdDate") %> </td>
 				<td> <%=Recordset1.getObject("UserID") %> </td>
-				<td> <%=Recordset1.getObject("UserName") %> </td>
 				<td> <a href='PatientsDetail.jsp?PatientsID=<%=Recordset1.getObject("PatientsID") %>'>Detail</a></td>
 				<td><a href='PatientsUpdate.jsp?PatientsID=<%=Recordset1.getObject("PatientsID") %>'>Update</a> <a href='PatientsDelete.jsp?PatientsID=<%=Recordset1.getObject("PatientsID") %>'>Delete</a></td>
 </tr>

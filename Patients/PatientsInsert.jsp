@@ -25,7 +25,7 @@
     preparedStatement1.setTimestamp(3, DateOfBirth != null && DateOfBirth!= null && !DateOfBirth.equals("") ? timestamp1.valueOf(DateOfBirth): timestamp1);
     preparedStatement1.setInt(4, RegionID != null && !RegionID.equals("") ? Integer.parseInt(RegionID): 0);
     preparedStatement1.setInt(5, CountryID != null && !CountryID.equals("") ? Integer.parseInt(CountryID): 0);
-    preparedStatement1.setString(6, createdDate != null && !createdDate.equals("") ? createdDate: "");
+    preparedStatement1.setTimestamp(6, createdDate != null && createdDate!= null && !createdDate.equals("") ? timestamp1.valueOf(createdDate): timestamp1);
     preparedStatement1.setInt(7, UserID != null && !UserID.equals("") ? Integer.parseInt(UserID): 0);
 
     

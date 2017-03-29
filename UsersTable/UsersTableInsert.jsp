@@ -2,7 +2,7 @@
 <%@ include file="../Connections/Conns.jsp" %>
 <%@ include file="../checkAccessLevel.jsp" %>
 <%
-    String sql = "insert into Users (UserName,UserAccount,Userpassword,createdDate,CreatedUserID,isValidated) values ( ? , ? , ? , ? , ? , ?)";
+    String sql = "insert into UsersTable (UserName,UserAccount,Userpassword,createdDate,CreatedUserID,isValidated) values ( ? , ? , ? , ? , ? , ?)";
     
     //Request data from the parameter values.
     //String inputValues[] = request.getParameterValues();
@@ -30,6 +30,6 @@
     preparedStatement1.executeUpdate();
     ConnRecordset1.close();  
     
-    response.sendRedirect("UsersMain.jsp");      
+    response.sendRedirect("UsersTableMain.jsp");      
 %>
 

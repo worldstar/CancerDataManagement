@@ -5,7 +5,7 @@ CREATE TABLE `CancerGroup` (
   `UserID` int(5) NOT NULL ,
   PRIMARY KEY (`CancerGroupID`),
   KEY `cancergroup_ibfk_1` (`UserID`),
-  CONSTRAINT `cancergroup_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `UsersTable` (`UserID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `cancergroup_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `Users` (`UserID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `CancerPart` (
@@ -15,7 +15,7 @@ CREATE TABLE `CancerPart` (
   `UserID` int(5) NOT NULL ,
   PRIMARY KEY (`CancerPartID`),
   KEY `CancerPart_ibfk_1` (`UserID`),
-  CONSTRAINT `CancerPart_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `UsersTable` (`UserID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `CancerPart_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `Users` (`UserID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `Country` (
@@ -25,7 +25,7 @@ CREATE TABLE `Country` (
   `UserID` int(5) NOT NULL ,
   PRIMARY KEY (`CountryID`),
   KEY `Country_ibfk_1` (`UserID`),
-  CONSTRAINT `Country_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `UsersTable` (`UserID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `Country_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `Users` (`UserID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `DataType` (
@@ -35,7 +35,7 @@ CREATE TABLE `DataType` (
   `UserID` int(5) NOT NULL ,
   PRIMARY KEY (`DataTypeID`),
   KEY `DataType_ibfk_1` (`UserID`),
-  CONSTRAINT `DataType_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `UsersTable` (`UserID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `DataType_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `Users` (`UserID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `Diagnosis` (
@@ -63,7 +63,7 @@ CREATE TABLE `Diagnosis` (
   KEY `Diagnosis_ibfk_1` (`CancerPartID`),
   KEY `Diagnosis_ibfk_2` (`StatisticID`),
   KEY `Diagnosis_ibfk_4` (`UserID`),
-  CONSTRAINT `Diagnosis_ibfk_4` FOREIGN KEY (`UserID`) REFERENCES `UsersTable` (`UserID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `Diagnosis_ibfk_4` FOREIGN KEY (`UserID`) REFERENCES `Users` (`UserID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `Diagnosis_ibfk_1` FOREIGN KEY (`CancerPartID`) REFERENCES `CancerPart` (`CancerPartID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `Diagnosis_ibfk_2` FOREIGN KEY (`StatisticID`) REFERENCES `Statistic` (`StatisticID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `Diagnosis_ibfk_3` FOREIGN KEY (`DataTypeID`) REFERENCES `DataType` (`DataTypeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -71,7 +71,7 @@ CREATE TABLE `Diagnosis` (
 
 CREATE TABLE `Patients` (
   `PatientsID` int(10) NOT NULL AUTO_INCREMENT,
-  `PatientsName` varchar(50) NOT NULL ,
+  `RepresentName` varchar(50) NOT NULL ,
   `SexTypeID` int(11) NOT NULL ,
   `DateOfBirth` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP ,
   `RegionID` int(3) NOT NULL ,
@@ -88,13 +88,15 @@ CREATE TABLE `Patients` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `Region` (
-  `SexTypeID` int(1) NOT NULL AUTO_INCREMENT,
-  `SexTypeName` varchar(10) NOT NULL ,
-  `createdDate` binary(8) NOT NULL ,
+  `RegionID` int(3) NOT NULL AUTO_INCREMENT,
+  `RegionName` varchar(20) NOT NULL ,
+  `CountryID` int(5) NOT NULL ,
+  `createdDate` timestamp NOT NULL,
   `UserID` int(5) NOT NULL ,
-  PRIMARY KEY (`SexTypeID`),
+  PRIMARY KEY (`RegionID`),
   KEY `Region_ibfk_1` (`UserID`),
-  CONSTRAINT `Region_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `UsersTable` (`UserID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `Region_ibfk_2` FOREIGN KEY (`CountryID`) REFERENCES `Country` (`CountryID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `Region_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `Users` (`UserID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `SexType` (
@@ -104,7 +106,7 @@ CREATE TABLE `SexType` (
   `UserID` int(5) NOT NULL ,
   PRIMARY KEY (`SexTypeID`),
   KEY `SexType_ibfk_1` (`UserID`),
-  CONSTRAINT `SexType_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `UsersTable` (`UserID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `SexType_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `Users` (`UserID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `Statistic` (
@@ -114,10 +116,10 @@ CREATE TABLE `Statistic` (
   `UserID` int(5) NOT NULL ,
   PRIMARY KEY (`StatisticID`),
   KEY `Statistic_ibfk_1` (`UserID`),
-  CONSTRAINT `Statistic_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `UsersTable` (`UserID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `Statistic_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `Users` (`UserID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `UsersTable` (
+CREATE TABLE `Users` (
   `UserID` int(5) NOT NULL AUTO_INCREMENT,
   `UserName` varchar(50) NOT NULL ,
   `UserAccount` varchar(50) NOT NULL ,
@@ -127,4 +129,3 @@ CREATE TABLE `UsersTable` (
   `isValidated` tinyint(3) unsigned NOT NULL,
   PRIMARY KEY (`UserID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-

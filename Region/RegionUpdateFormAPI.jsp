@@ -8,7 +8,8 @@
             String message = "Successful.";
 
     		java.util.Date date= new java.util.Date();
-    		public String SexTypeName = "";
+    		public String RegionName = "";
+    		public int CountryID = 0;
     		public int UserID = 0;
                
             
@@ -22,10 +23,10 @@
         }
 %>
 <%
-    String SexTypeID = request.getParameter("SexTypeID");
-    //session.setAttribute("RegionUpdateID", SexTypeID);
-    PreparedStatement StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Region where SexTypeID = ?");
-    StatementRecordset1.setString(1, SexTypeID);
+    String RegionID = request.getParameter("RegionID");
+    //session.setAttribute("RegionUpdateID", RegionID);
+    PreparedStatement StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Region where RegionID = ?");
+    StatementRecordset1.setString(1, RegionID);
     ResultSet Recordset1 = StatementRecordset1.executeQuery();
     
     responseClass responseClass1 = new responseClass();
@@ -42,7 +43,8 @@
     
     java.util.Date date= new java.util.Date();	
 	Timestamp timestamp1 = new Timestamp(date.getTime());   
-	responseClass1.SexTypeName =  Recordset1.getString("SexTypeName");
+	responseClass1.RegionName =  Recordset1.getString("RegionName");
+	responseClass1.CountryID = Recordset1.getInt("CountryID");
 	responseClass1.UserID = Recordset1.getInt("UserID");
    
 

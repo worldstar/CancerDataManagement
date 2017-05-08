@@ -15,7 +15,7 @@
 	pageIndex pageIndex1 = new pageIndex();
 		
 	PreparedStatement StatementRecordset1 = 
-	ConnRecordset1.prepareStatement("SELECT count(*) FROM Patients, Country, SexType where (PatientsName like ?) and Patients.CountryID=Country.CountryID and Patients.SexTypeID=SexType.SexTypeID");
+	ConnRecordset1.prepareStatement("SELECT count(*) FROM Patients, SexType, Country where (RepresentName like ?) and Patients.SexTypeID=SexType.SexTypeID and Patients.CountryID=Country.CountryID");
             
   if(request.getParameter("startRecord") != null){//First entry		
   	start = Integer.parseInt(request.getParameter("startRecord"));		  
@@ -29,13 +29,13 @@
        totalRecords = CountRecordset1.getInt(1);               
   }
       
-  StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Patients, Country, SexType where (PatientsName like ?) and Patients.CountryID=Country.CountryID and Patients.SexTypeID=SexType.SexTypeID order by PatientsID limit "+start+","+showRecords+"; ");
+  StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Patients, SexType, Country where (RepresentName like ?) and Patients.SexTypeID=SexType.SexTypeID and Patients.CountryID=Country.CountryID order by PatientsID limit "+start+","+showRecords+"; ");
 
   if(dbServerProduct.equals("SQLServer2012")){
-    StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Patients, Country, SexType where (PatientsName like ?) and Patients.CountryID=Country.CountryID and Patients.SexTypeID=SexType.SexTypeID order by PatientsID desc OFFSET  "+start+" ROWS FETCH NEXT "+showRecords+" ROWS ONLY;");
+    StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Patients, SexType, Country where (RepresentName like ?) and Patients.SexTypeID=SexType.SexTypeID and Patients.CountryID=Country.CountryID order by PatientsID desc OFFSET  "+start+" ROWS FETCH NEXT "+showRecords+" ROWS ONLY;");
   }
   else if(dbServerProduct.equals("SQLServer2008")){
-    StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM (SELECT ROW_NUMBER() OVER ( ORDER BY PatientsID ) AS RowNum, * FROM Patients, Country, SexType where (PatientsName like ?) and Patients.CountryID=Country.CountryID and Patients.SexTypeID=SexType.SexTypeID) AS RowConstrainedResult where RowNum >= "+start+" and RowNum < "+(start+showRecords)+" ORDER BY RowNum; ");
+    StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM (SELECT ROW_NUMBER() OVER ( ORDER BY PatientsID ) AS RowNum, * FROM Patients, SexType, Country where (RepresentName like ?) and Patients.SexTypeID=SexType.SexTypeID and Patients.CountryID=Country.CountryID) AS RowConstrainedResult where RowNum >= "+start+" and RowNum < "+(start+showRecords)+" ORDER BY RowNum; ");
   }
 
       StatementRecordset1.setString(1, "%"+SearchContent+"%");
@@ -89,7 +89,7 @@ $().ready(function () {
     <table id="rounded-corner" summary="My Main Table" width="650px">
         <thead>
             <tr>	
-                <th>PatientsName*</th>
+                <th>RepresentName*</th>
                 <th>SexTypeID*</th>
                 <th>SexTypeName</th>
                 <th>DateOfBirth*</th>
@@ -112,7 +112,7 @@ $().ready(function () {
 
 
 <tr>
-				<td> <%=Recordset1.getObject("PatientsName") %> </td>
+				<td> <%=Recordset1.getObject("RepresentName") %> </td>
 				<td> <%=Recordset1.getObject("SexTypeID") %> </td>
 				<td> <%=Recordset1.getObject("SexTypeName") %> </td>
 				<td> <%=Recordset1.getObject("DateOfBirth") %> </td>

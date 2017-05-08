@@ -18,7 +18,7 @@
 $().ready(function () {
     $("#form1").validate({
         rules: {            
-			PatientsName:{
+			RepresentName:{
   			    required: true,
   			    maxlength: 50
 			},
@@ -48,7 +48,7 @@ $().ready(function () {
 
         },
         messages: {
-			PatientsName:{
+			RepresentName:{
 	  		    required:"Required",
 			    maxlength: "No more than 50 characters"
 			},
@@ -104,8 +104,8 @@ $().ready(function () {
             
             <tbody>
             	    		<tr>
-    		  <td>PatientsName*</td>
-    		  <td><input name="PatientsName" type="text" id="PatientsName" size="30" /></td>
+    		  <td>RepresentName*</td>
+    		  <td><input name="RepresentName" type="text" id="RepresentName" size="30" /></td>
     		</tr>
     		
 <%

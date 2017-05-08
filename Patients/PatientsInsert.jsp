@@ -2,11 +2,11 @@
 <%@ include file="../Connections/Conns.jsp" %>
 <%@ include file="../checkAccessLevel.jsp" %>
 <%
-    String sql = "insert into Patients (PatientsName,SexTypeID,DateOfBirth,RegionID,CountryID,createdDate,UserID) values ( ? , ? , ? , ? , ? , ? , ?)";
+    String sql = "insert into Patients (RepresentName,SexTypeID,DateOfBirth,RegionID,CountryID,createdDate,UserID) values ( ? , ? , ? , ? , ? , ? , ?)";
     
     //Request data from the parameter values.
     //String inputValues[] = request.getParameterValues();
-    String PatientsName = request.getParameter("PatientsName");
+    String RepresentName = request.getParameter("RepresentName");
     String SexTypeID = request.getParameter("SexTypeID");
     String DateOfBirth = request.getParameter("DateOfBirth");
     String RegionID = request.getParameter("RegionID");
@@ -20,7 +20,7 @@
 
     PreparedStatement preparedStatement1 = ConnRecordset1.prepareStatement(sql);
     //Set the data into the prepare statement
-    preparedStatement1.setString(1, PatientsName != null && !PatientsName.equals("") ? PatientsName: "");
+    preparedStatement1.setString(1, RepresentName != null && !RepresentName.equals("") ? RepresentName: "");
     preparedStatement1.setInt(2, SexTypeID != null && !SexTypeID.equals("") ? Integer.parseInt(SexTypeID): 0);
     preparedStatement1.setTimestamp(3, DateOfBirth != null && DateOfBirth!= null && !DateOfBirth.equals("") ? timestamp1.valueOf(DateOfBirth): timestamp1);
     preparedStatement1.setInt(4, RegionID != null && !RegionID.equals("") ? Integer.parseInt(RegionID): 0);

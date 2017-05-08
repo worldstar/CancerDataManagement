@@ -7,7 +7,7 @@
 <link type="text/css" rel="stylesheet" href="../stylesheets/style.css" /> 
 <%
 String PatientsID = request.getParameter("PatientsID");
-PreparedStatement StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Patients, Country, SexType where PatientsID = ? and Patients.SexTypeID=SexType.SexTypeID", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+PreparedStatement StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Patients, SexType, Country where PatientsID = ? and Patients.CountryID=Country.CountryID", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 StatementRecordset1.setString(1, PatientsID);
 ResultSet Recordset1 = StatementRecordset1.executeQuery();
 
@@ -52,8 +52,8 @@ else{//Move to the first record. It is naturally this record is the first one.
             <tbody>
             <ul data-role="listview" data-divider-theme="b" data-inset="true">
             	            <tr>
-    		  <td>PatientsName*</td>
-    		      		  <td> <%=Recordset1.getObject("PatientsName") %> </td>
+    		  <td>RepresentName*</td>
+    		      		  <td> <%=Recordset1.getObject("RepresentName") %> </td>
 
       		</tr>
             <tr>

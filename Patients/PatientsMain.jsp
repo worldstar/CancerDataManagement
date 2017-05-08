@@ -25,14 +25,14 @@
         totalRecords = CountRecordset1.getInt(1);                
     }    
 	
-PreparedStatement StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Patients, Country, SexType where Patients.CountryID=Country.CountryID and Patients.SexTypeID=SexType.SexTypeID order by PatientsID desc limit "+start+","+showRecords+"; ");
+PreparedStatement StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Patients, SexType, Country where Patients.SexTypeID=SexType.SexTypeID and Patients.CountryID=Country.CountryID order by PatientsID desc limit "+start+","+showRecords+"; ");
 
 
 if(dbServerProduct.equals("SQLServer2012")){
-  StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Patients, Country, SexType where Patients.CountryID=Country.CountryID and Patients.SexTypeID=SexType.SexTypeID order by PatientsID desc OFFSET  "+start+" ROWS FETCH NEXT "+showRecords+" ROWS ONLY;");
+  StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Patients, SexType, Country where Patients.SexTypeID=SexType.SexTypeID and Patients.CountryID=Country.CountryID order by PatientsID desc OFFSET  "+start+" ROWS FETCH NEXT "+showRecords+" ROWS ONLY;");
 }
 else if(dbServerProduct.equals("SQLServer2008")){
-  StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM (SELECT ROW_NUMBER() OVER ( ORDER BY PatientsID ) AS RowNum, * FROM Patients, Country, SexType where Patients.CountryID=Country.CountryID and Patients.SexTypeID=SexType.SexTypeID) AS RowConstrainedResult where RowNum >= "+start+" and RowNum < "+(start+showRecords)+" ORDER BY RowNum; ");
+  StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM (SELECT ROW_NUMBER() OVER ( ORDER BY PatientsID ) AS RowNum, * FROM Patients, SexType, Country where Patients.SexTypeID=SexType.SexTypeID and Patients.CountryID=Country.CountryID) AS RowConstrainedResult where RowNum >= "+start+" and RowNum < "+(start+showRecords)+" ORDER BY RowNum; ");
 }
 
 ResultSet Recordset1 = StatementRecordset1.executeQuery();
@@ -112,7 +112,7 @@ function deleteOnClick(_address){
     <table id="rounded-corner" summary="My Main Table" width="650px">
         <thead>
             <tr>	
-                <th>PatientsName*</th>
+                <th>RepresentName*</th>
                 <th>SexTypeID*</th>
                 <th>SexTypeName</th>
                 <th>DateOfBirth*</th>
@@ -136,7 +136,7 @@ function deleteOnClick(_address){
 
 
     	   <tr>
-				<td> <%=Recordset1.getObject("PatientsName") %> </td>
+				<td> <%=Recordset1.getObject("RepresentName") %> </td>
 				<td> <%=Recordset1.getObject("SexTypeID") %> </td>
 				<td> <%=Recordset1.getObject("SexTypeName") %> </td>
 				<td> <%=Recordset1.getObject("DateOfBirth") %> </td>

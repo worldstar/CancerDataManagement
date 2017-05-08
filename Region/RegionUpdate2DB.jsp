@@ -2,7 +2,7 @@
 <%@ include file="../Connections/Conns.jsp" %>
 <%@ include file="../checkAccessLevel.jsp" %>
 <%
-    String sql = "update Region set SexTypeName = ?, createdDate = ?, UserID = ? where SexTypeID = ?";
+    String sql = "update Region set RegionName = ?, CountryID = ?, createdDate = ?, UserID = ? where RegionID = ?";
     String sessionUpdateID = (String) session.getAttribute("RegionUpdateID");
     
     if(sessionUpdateID == null){
@@ -11,7 +11,8 @@
     
     //Request data from the parameter values.
     //String inputValues[] = request.getParameterValues();
-    String SexTypeName = request.getParameter("SexTypeName");
+    String RegionName = request.getParameter("RegionName");
+    String CountryID = request.getParameter("CountryID");
     String createdDate = request.getParameter("createdDate");
     String UserID = request.getParameter("UserID");
 
@@ -21,10 +22,11 @@
 
     PreparedStatement preparedStatement1 = ConnRecordset1.prepareStatement(sql);
     //Set the data into the prepare statement
-    preparedStatement1.setString(1, SexTypeName != null && !SexTypeName.equals("") ? SexTypeName: "");
-    preparedStatement1.setString(2, createdDate != null && !createdDate.equals("") ? createdDate: "");
-    preparedStatement1.setInt(3, UserID != null && !UserID.equals("") ? Integer.parseInt(UserID): 0);
-    preparedStatement1.setString(4, sessionUpdateID);
+    preparedStatement1.setString(1, RegionName != null && !RegionName.equals("") ? RegionName: "");
+    preparedStatement1.setInt(2, CountryID != null && !CountryID.equals("") ? Integer.parseInt(CountryID): 0);
+    preparedStatement1.setString(3, createdDate != null && !createdDate.equals("") ? createdDate: "");
+    preparedStatement1.setInt(4, UserID != null && !UserID.equals("") ? Integer.parseInt(UserID): 0);
+    preparedStatement1.setString(5, sessionUpdateID);
 
     
     preparedStatement1.executeUpdate();

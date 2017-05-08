@@ -6,9 +6,9 @@
 <%@ include file="../Connections/Conns.jsp" %>
 <link type="text/css" rel="stylesheet" href="../stylesheets/style.css" /> 
 <%
-String SexTypeID = request.getParameter("SexTypeID");
-PreparedStatement StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Region, UsersTable where SexTypeID = ? and Region.UserID=UsersTable.UserID", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-StatementRecordset1.setString(1, SexTypeID);
+String RegionID = request.getParameter("RegionID");
+PreparedStatement StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Region, UsersTable, Country where RegionID = ? and Region.CountryID=Country.CountryID", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+StatementRecordset1.setString(1, RegionID);
 ResultSet Recordset1 = StatementRecordset1.executeQuery();
 
 if(!Recordset1.next()){//No record of the TableID
@@ -52,8 +52,17 @@ else{//Move to the first record. It is naturally this record is the first one.
             <tbody>
             <ul data-role="listview" data-divider-theme="b" data-inset="true">
             	            <tr>
-    		  <td>SexTypeName*</td>
-    		      		  <td> <%=Recordset1.getObject("SexTypeName") %> </td>
+    		  <td>RegionName*</td>
+    		      		  <td> <%=Recordset1.getObject("RegionName") %> </td>
+
+      		</tr>
+            <tr>
+    		  <td>CountryID*</td>
+    		      		  <td> <%=Recordset1.getObject("CountryID") %> </td>
+    		<tr>
+    		  <td>CountryName</td>
+    		  <td><%=Recordset1.getObject("CountryName")%></td>
+    		</tr>
 
       		</tr>
             <tr>
@@ -110,8 +119,8 @@ function deleteOnClick(_address){
 </script>    
      
         <a href="#"><img src="../images/BackC_btn.png" width="95" height="34" onclick="javascript:window.history.back(-1); return false;" /></a>
-		<a href="RegionUpdate.jsp?SexTypeID=<%=SexTypeID%>"><img src="../images/modify_btn.png" width="95" height="34" /></a>
-		<a href="#" onclick="deleteOnClick('RegionDelete.jsp?SexTypeID=<%=SexTypeID%>')"><img src="../images/delete_btn.png" width="95" height="34" /></a><!-- InstanceEndEditable -->
+		<a href="RegionUpdate.jsp?RegionID=<%=RegionID%>"><img src="../images/modify_btn.png" width="95" height="34" /></a>
+		<a href="#" onclick="deleteOnClick('RegionDelete.jsp?RegionID=<%=RegionID%>')"><img src="../images/delete_btn.png" width="95" height="34" /></a><!-- InstanceEndEditable -->
 <!-- InstanceBeginEditable name="EditRegion5" -->
       <p style="float:left;margin-top:3px;" class="text_style1">&nbsp;</p>
       <!-- InstanceEndEditable --><!-- InstanceBeginEditable name="EditRegion6" --><!-- InstanceEndEditable -->

@@ -6,7 +6,7 @@
 <link type="text/css" rel="stylesheet" href="../stylesheets/style.css" /> 
 <%
 String PatientsID = request.getParameter("PatientsID");
-PreparedStatement StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Patients, Country, SexType where PatientsID = ? and Patients.SexTypeID=SexType.SexTypeID", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+PreparedStatement StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Patients, SexType, Country where PatientsID = ? and Patients.CountryID=Country.CountryID", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 StatementRecordset1.setString(1, PatientsID);
 ResultSet Recordset1 = StatementRecordset1.executeQuery();
 ResultSetMetaData rsMetaData = Recordset1.getMetaData();
@@ -32,7 +32,7 @@ else{//Move to the first record. It is naturally this record is the first one.
 $().ready(function () {
     $("#form1").validate({
         rules: {            
-          PatientsName:{
+          RepresentName:{
                  required: true,
                maxlength: 50
           },
@@ -62,7 +62,7 @@ $().ready(function () {
 
         },
         messages: {
-           PatientsName:{
+           RepresentName:{
              required:"Required",
                 maxlength: "No more than 50 characters"
           },
@@ -118,8 +118,8 @@ $().ready(function () {
             
             <tbody>   
     			          <tr>
-            <td>PatientsName*</td>
-           <td><input name="PatientsName" type="text" id="PatientsName" size="30" value="<%=Recordset1.getObject("PatientsName")%>" /></td>
+            <td>RepresentName*</td>
+           <td><input name="RepresentName" type="text" id="RepresentName" size="30" value="<%=Recordset1.getObject("RepresentName")%>" /></td>
            </tr>
            
 <%

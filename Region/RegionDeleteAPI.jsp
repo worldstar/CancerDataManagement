@@ -10,14 +10,14 @@
         }
 %>
 <%
-	String SexTypeID = request.getParameter("SexTypeID");
+	String RegionID = request.getParameter("RegionID");
     
     
     
-    String sql = "Delete from Region where SexTypeID = ?";       
+    String sql = "Delete from Region where RegionID = ?";       
 
     PreparedStatement preparedStatement1 = ConnRecordset1.prepareStatement(sql);
-    preparedStatement1.setString(1, SexTypeID);
+    preparedStatement1.setString(1, RegionID);
     
     preparedStatement1.executeUpdate();
     ConnRecordset1.close();

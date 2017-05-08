@@ -9,7 +9,7 @@
         	int status = 0;//0 Means ok.
             String message = "Successful.";
 
-    		public String PatientsName = "";
+    		public String RepresentName = "";
     		public int SexTypeID = 0;
     		public Timestamp DateOfBirth = new Timestamp((new java.util.Date()).getTime());
     		public int RegionID = 0;
@@ -36,7 +36,7 @@
     pageIndex pageIndex1 = new pageIndex();
         
     PreparedStatement StatementRecordset1 = 
-    ConnRecordset1.prepareStatement("SELECT count(*) FROM Patients, Country, SexType where PatientsName like ?");
+    ConnRecordset1.prepareStatement("SELECT count(*) FROM Patients, SexType, Country where RepresentName like ?");
             
     if(request.getParameter("startRecord") != null){//First entry       
         start = Integer.parseInt(request.getParameter("startRecord"));        
@@ -50,13 +50,13 @@
          totalRecords = CountRecordset1.getInt(1);               
     }
         
-    StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Patients, Country, SexType where PatientsName like ? order by PatientsID limit "+start+","+showRecords+"; ");
+    StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Patients, SexType, Country where RepresentName like ? order by PatientsID limit "+start+","+showRecords+"; ");
 
     if(dbServerProduct.equals("SQLServer2012")){
-      StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Patients, Country, SexType where PatientsName like ? order by PatientsID desc OFFSET  "+start+" ROWS FETCH NEXT "+showRecords+" ROWS ONLY;");
+      StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Patients, SexType, Country where RepresentName like ? order by PatientsID desc OFFSET  "+start+" ROWS FETCH NEXT "+showRecords+" ROWS ONLY;");
     }
     else if(dbServerProduct.equals("SQLServer2008")){
-      StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM (SELECT ROW_NUMBER() OVER ( ORDER BY PatientsID ) AS RowNum, * FROM Patients, Country, SexType where PatientsName like ?) AS RowConstrainedResult where RowNum >= "+start+" and RowNum < "+(start+showRecords)+" ORDER BY RowNum; ");
+      StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM (SELECT ROW_NUMBER() OVER ( ORDER BY PatientsID ) AS RowNum, * FROM Patients, SexType, Country where RepresentName like ?) AS RowConstrainedResult where RowNum >= "+start+" and RowNum < "+(start+showRecords)+" ORDER BY RowNum; ");
     }
 
         StatementRecordset1.setString(1, "%"+SearchContent+"%");
@@ -72,7 +72,7 @@
     Collection collection = new ArrayList();
 	while(Recordset1.next()){
 	    responseClass responseClass1 = new responseClass();
-    	responseClass1.PatientsName =  Recordset1.getString("PatientsName");
+    	responseClass1.RepresentName =  Recordset1.getString("RepresentName");
     	responseClass1.SexTypeID = Recordset1.getInt("SexTypeID");
     	responseClass1.DateOfBirth = Recordset1.getString("DateOfBirth") != null? timestamp1.valueOf(Recordset1.getString("DateOfBirth")): null;
     	responseClass1.RegionID = Recordset1.getInt("RegionID");

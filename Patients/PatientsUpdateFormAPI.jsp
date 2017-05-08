@@ -8,7 +8,7 @@
             String message = "Successful.";
 
     		java.util.Date date= new java.util.Date();
-    		public String PatientsName = "";
+    		public String RepresentName = "";
     		public int SexTypeID = 0;
     		public Timestamp DateOfBirth = new Timestamp(date.getTime());
     		public int RegionID = 0;
@@ -47,7 +47,7 @@
     
     java.util.Date date= new java.util.Date();	
 	Timestamp timestamp1 = new Timestamp(date.getTime());   
-	responseClass1.PatientsName =  Recordset1.getString("PatientsName");
+	responseClass1.RepresentName =  Recordset1.getString("RepresentName");
 	responseClass1.SexTypeID = Recordset1.getInt("SexTypeID");
     	responseClass1.DateOfBirth = Recordset1.getString("DateOfBirth") != null? timestamp1.valueOf(Recordset1.getString("DateOfBirth")): null;
 	responseClass1.RegionID = Recordset1.getInt("RegionID");

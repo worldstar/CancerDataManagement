@@ -5,9 +5,9 @@
 <%@ include file="../Connections/Conns.jsp" %>
 <link type="text/css" rel="stylesheet" href="../stylesheets/style.css" /> 
 <%
-String SexTypeID = request.getParameter("SexTypeID");
-PreparedStatement StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Region, UsersTable where SexTypeID = ? and Region.UserID=UsersTable.UserID", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-StatementRecordset1.setString(1, SexTypeID);
+String RegionID = request.getParameter("RegionID");
+PreparedStatement StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Region, UsersTable, Country where RegionID = ? and Region.CountryID=Country.CountryID", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+StatementRecordset1.setString(1, RegionID);
 ResultSet Recordset1 = StatementRecordset1.executeQuery();
 ResultSetMetaData rsMetaData = Recordset1.getMetaData();
 
@@ -32,9 +32,14 @@ else{//Move to the first record. It is naturally this record is the first one.
 $().ready(function () {
     $("#form1").validate({
         rules: {            
-          SexTypeName:{
+          RegionName:{
                  required: true,
                maxlength: 10
+          },
+          CountryID:{
+             required: true,
+               maxlength: 5,
+                digits: true 
           },
           createdDate:{
                  required: true,
@@ -43,9 +48,14 @@ $().ready(function () {
 
         },
         messages: {
-           SexTypeName:{
+           RegionName:{
              required:"Required",
                 maxlength: "No more than 10 characters"
+          },
+           CountryID:{
+             required:"Required",
+                maxlength: "No more than 5 characters",
+                digits: "  Digits" 
           },
            createdDate:{
              required:"Required",
@@ -80,9 +90,25 @@ $().ready(function () {
             
             <tbody>   
     			          <tr>
-            <td>SexTypeName*</td>
-           <td><input name="SexTypeName" type="text" id="SexTypeName" size="30" value="<%=Recordset1.getObject("SexTypeName")%>" /></td>
+            <td>RegionName*</td>
+           <td><input name="RegionName" type="text" id="RegionName" size="30" value="<%=Recordset1.getObject("RegionName")%>" /></td>
            </tr>
+           
+<%
+PreparedStatement CountryIDStatement = ConnRecordset1.prepareStatement("SELECT * FROM Country order by CountryID desc");
+ResultSet CountryIDRecordset1 = CountryIDStatement.executeQuery();
+%>          <tr>
+            <td>CountryID*</td>
+           <td><select name="CountryID" id="CountryID" >
+<% 
+while(CountryIDRecordset1.next()){ 
+%>
+              <option value="<%=CountryIDRecordset1.getString("CountryID")%>"   <%=CountryIDRecordset1.getInt("CountryID") == Recordset1.getInt("CountryID") ? "selected": ""%>>                    <%=CountryIDRecordset1.getString("CountryName")%></option>
+<%  
+} 
+%>
+</select> <a href='../Country/CountryMain.jsp' target='_blank'>Add</a></td>
+         </tr>
           <tr>
             <td>createdDate*</td>
            <td><input name="createdDate" type="text" id="createdDate" size="30" value="<%=Recordset1.getObject("createdDate")%>" /></td>
@@ -101,7 +127,7 @@ $().ready(function () {
       
     <p style="float:left;margin-top:3px;" class="text_style1">&nbsp;</p>
 <%
-	session.setAttribute("RegionUpdateID", SexTypeID);
+	session.setAttribute("RegionUpdateID", RegionID);
 	if(ConnRecordset1 != null){
     	ConnRecordset1.close();
     }

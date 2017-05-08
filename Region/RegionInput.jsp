@@ -18,9 +18,14 @@
 $().ready(function () {
     $("#form1").validate({
         rules: {            
-			SexTypeName:{
+			RegionName:{
   			    required: true,
   			    maxlength: 10
+			},
+			CountryID:{
+	  		    required: true,
+  			    maxlength: 5,
+   			    digits: true 
 			},
 			createdDate:{
   			    required: true,
@@ -29,9 +34,14 @@ $().ready(function () {
 
         },
         messages: {
-			SexTypeName:{
+			RegionName:{
 	  		    required:"Required",
 			    maxlength: "No more than 10 characters"
+			},
+			CountryID:{
+	  		    required:"Required",
+			    maxlength: "No more than 5 characters",
+ 	  		    digits: "  Digits" 
 			},
 			createdDate:{
 	  		    required:"Required",
@@ -66,8 +76,24 @@ $().ready(function () {
             
             <tbody>
             	    		<tr>
-    		  <td>SexTypeName*</td>
-    		  <td><input name="SexTypeName" type="text" id="SexTypeName" size="30" /></td>
+    		  <td>RegionName*</td>
+    		  <td><input name="RegionName" type="text" id="RegionName" size="30" /></td>
+    		</tr>
+    		
+<%
+PreparedStatement CountryIDStatement = ConnRecordset1.prepareStatement("SELECT * FROM Country order by CountryID desc");
+ResultSet CountryIDRecordset1 = CountryIDStatement.executeQuery();
+%>    		<tr>
+    		  <td>CountryID*</td>
+    		  <td><select name="CountryID" id="CountryID" >
+<% 
+while(CountryIDRecordset1.next()){ 
+%>
+    		     <option value="<%=CountryIDRecordset1.getString("CountryID")%>" ><%=CountryIDRecordset1.getString("CountryName")%></option>
+<%  
+} 
+%>
+</select> <a href='../Country/CountryMain.jsp' target='_blank'>Add</a></td>
     		</tr>
     		<tr>
     		  <td>createdDate*</td>

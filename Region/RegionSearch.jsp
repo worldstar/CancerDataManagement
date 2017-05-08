@@ -15,7 +15,7 @@
 	pageIndex pageIndex1 = new pageIndex();
 		
 	PreparedStatement StatementRecordset1 = 
-	ConnRecordset1.prepareStatement("SELECT count(*) FROM Region, UsersTable where (SexTypeName like ?) and Region.UserID=UsersTable.UserID");
+	ConnRecordset1.prepareStatement("SELECT count(*) FROM Region, UsersTable, Country where (RegionName like ?) and Region.UserID=UsersTable.UserID and Region.CountryID=Country.CountryID");
             
   if(request.getParameter("startRecord") != null){//First entry		
   	start = Integer.parseInt(request.getParameter("startRecord"));		  
@@ -29,13 +29,13 @@
        totalRecords = CountRecordset1.getInt(1);               
   }
       
-  StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Region, UsersTable where (SexTypeName like ?) and Region.UserID=UsersTable.UserID order by SexTypeID limit "+start+","+showRecords+"; ");
+  StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Region, UsersTable, Country where (RegionName like ?) and Region.UserID=UsersTable.UserID and Region.CountryID=Country.CountryID order by RegionID limit "+start+","+showRecords+"; ");
 
   if(dbServerProduct.equals("SQLServer2012")){
-    StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Region, UsersTable where (SexTypeName like ?) and Region.UserID=UsersTable.UserID order by SexTypeID desc OFFSET  "+start+" ROWS FETCH NEXT "+showRecords+" ROWS ONLY;");
+    StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Region, UsersTable, Country where (RegionName like ?) and Region.UserID=UsersTable.UserID and Region.CountryID=Country.CountryID order by RegionID desc OFFSET  "+start+" ROWS FETCH NEXT "+showRecords+" ROWS ONLY;");
   }
   else if(dbServerProduct.equals("SQLServer2008")){
-    StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM (SELECT ROW_NUMBER() OVER ( ORDER BY SexTypeID ) AS RowNum, * FROM Region, UsersTable where (SexTypeName like ?) and Region.UserID=UsersTable.UserID) AS RowConstrainedResult where RowNum >= "+start+" and RowNum < "+(start+showRecords)+" ORDER BY RowNum; ");
+    StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM (SELECT ROW_NUMBER() OVER ( ORDER BY RegionID ) AS RowNum, * FROM Region, UsersTable, Country where (RegionName like ?) and Region.UserID=UsersTable.UserID and Region.CountryID=Country.CountryID) AS RowConstrainedResult where RowNum >= "+start+" and RowNum < "+(start+showRecords)+" ORDER BY RowNum; ");
   }
 
       StatementRecordset1.setString(1, "%"+SearchContent+"%");
@@ -89,7 +89,9 @@ $().ready(function () {
     <table id="rounded-corner" summary="My Main Table" width="650px">
         <thead>
             <tr>	
-                <th>SexTypeName*</th>
+                <th>RegionName*</th>
+                <th>CountryID*</th>
+                <th>CountryName</th>
                 <th>createdDate*</th>
                 <th>UserID*</th>
                 <th>UserName</th>
@@ -107,12 +109,14 @@ $().ready(function () {
 
 
 <tr>
-				<td> <%=Recordset1.getObject("SexTypeName") %> </td>
+				<td> <%=Recordset1.getObject("RegionName") %> </td>
+				<td> <%=Recordset1.getObject("CountryID") %> </td>
+				<td> <%=Recordset1.getObject("CountryName") %> </td>
 				<td> <%=Recordset1.getObject("createdDate") %> </td>
 				<td> <%=Recordset1.getObject("UserID") %> </td>
 				<td> <%=Recordset1.getObject("UserName") %> </td>
-				<td> <a href='RegionDetail.jsp?SexTypeID=<%=Recordset1.getObject("SexTypeID") %>'>Detail</a></td>
-				<td><a href='RegionUpdate.jsp?SexTypeID=<%=Recordset1.getObject("SexTypeID") %>'>Update</a> <a href='RegionDelete.jsp?SexTypeID=<%=Recordset1.getObject("SexTypeID") %>'>Delete</a></td>
+				<td> <a href='RegionDetail.jsp?RegionID=<%=Recordset1.getObject("RegionID") %>'>Detail</a></td>
+				<td><a href='RegionUpdate.jsp?RegionID=<%=Recordset1.getObject("RegionID") %>'>Update</a> <a href='RegionDelete.jsp?RegionID=<%=Recordset1.getObject("RegionID") %>'>Delete</a></td>
 </tr>
 
 

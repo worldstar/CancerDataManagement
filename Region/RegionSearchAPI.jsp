@@ -9,7 +9,8 @@
         	int status = 0;//0 Means ok.
             String message = "Successful.";
 
-    		public String SexTypeName = "";
+    		public String RegionName = "";
+    		public int CountryID = 0;
     		public int UserID = 0;
                
             
@@ -31,7 +32,7 @@
     pageIndex pageIndex1 = new pageIndex();
         
     PreparedStatement StatementRecordset1 = 
-    ConnRecordset1.prepareStatement("SELECT count(*) FROM Region, UsersTable where SexTypeName like ?");
+    ConnRecordset1.prepareStatement("SELECT count(*) FROM Region, UsersTable, Country where RegionName like ?");
             
     if(request.getParameter("startRecord") != null){//First entry       
         start = Integer.parseInt(request.getParameter("startRecord"));        
@@ -45,13 +46,13 @@
          totalRecords = CountRecordset1.getInt(1);               
     }
         
-    StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Region, UsersTable where SexTypeName like ? order by SexTypeID limit "+start+","+showRecords+"; ");
+    StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Region, UsersTable, Country where RegionName like ? order by RegionID limit "+start+","+showRecords+"; ");
 
     if(dbServerProduct.equals("SQLServer2012")){
-      StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Region, UsersTable where SexTypeName like ? order by SexTypeID desc OFFSET  "+start+" ROWS FETCH NEXT "+showRecords+" ROWS ONLY;");
+      StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Region, UsersTable, Country where RegionName like ? order by RegionID desc OFFSET  "+start+" ROWS FETCH NEXT "+showRecords+" ROWS ONLY;");
     }
     else if(dbServerProduct.equals("SQLServer2008")){
-      StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM (SELECT ROW_NUMBER() OVER ( ORDER BY SexTypeID ) AS RowNum, * FROM Region, UsersTable where SexTypeName like ?) AS RowConstrainedResult where RowNum >= "+start+" and RowNum < "+(start+showRecords)+" ORDER BY RowNum; ");
+      StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM (SELECT ROW_NUMBER() OVER ( ORDER BY RegionID ) AS RowNum, * FROM Region, UsersTable, Country where RegionName like ?) AS RowConstrainedResult where RowNum >= "+start+" and RowNum < "+(start+showRecords)+" ORDER BY RowNum; ");
     }
 
         StatementRecordset1.setString(1, "%"+SearchContent+"%");
@@ -67,7 +68,8 @@
     Collection collection = new ArrayList();
 	while(Recordset1.next()){
 	    responseClass responseClass1 = new responseClass();
-    	responseClass1.SexTypeName =  Recordset1.getString("SexTypeName");
+    	responseClass1.RegionName =  Recordset1.getString("RegionName");
+    	responseClass1.CountryID = Recordset1.getInt("CountryID");
     	responseClass1.UserID = Recordset1.getInt("UserID");
     	collection.add(responseClass1);
     	resultFound = true;    }       

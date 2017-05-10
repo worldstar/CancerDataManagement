@@ -41,11 +41,12 @@ $().ready(function () {
   			    maxlength: 5,
    			    digits: true 
 			},
-			createdDate:{
-  			    required: true,
-  			    maxlength: 19
-			},
-
+,
+			UserID:{
+	  		    required: true,
+  			    maxlength: 5,
+   			    digits: true 
+			}
         },
         messages: {
 			RepresentName:{
@@ -71,11 +72,12 @@ $().ready(function () {
 			    maxlength: "No more than 5 characters",
  	  		    digits: "  Digits" 
 			},
-			createdDate:{
+,
+			UserID:{
 	  		    required:"Required",
-			    maxlength: "No more than 19 characters"
-			},
-                 
+			    maxlength: "No more than 5 characters",
+ 	  		    digits: "  Digits" 
+			}                 
         }
     });
 });
@@ -160,23 +162,12 @@ while(CountryIDRecordset1.next()){
 %>
 </select> <a href='../Country/CountryMain.jsp' target='_blank'>Add</a></td>
     		</tr>
- 
-<script>
-$(function() {
-   //$( "#CreateDate" ).datepicker();
-   //$( "#CreateDate" ).datetimepicker();
-	var opt={dateFormat: 'yy-mm-dd',
-             hourMin: 6,
-			 hourMax: 24,
-             showSecond: true,
-             timeFormat: 'HH:mm:ss'
-    };   
-   $("#createdDate").datetimepicker(opt);
-});
-</script>    		<tr>
-    		  <td>createdDate*</td>
-    		  <td><input name="createdDate" type="text" id="createdDate" size="30" /></td>
-    		</tr>
+<%
+    if(session.getAttribute("UID") == null){
+      ConnRecordset1.close();
+      response.sendRedirect("../notFound.jsp");
+    }
+%>
      
             </tbody>      
         </table>          

@@ -52,8 +52,8 @@
     preparedStatement1.setString(12, cN != null && !cN.equals("") ? cN: "");
     preparedStatement1.setString(13, cM != null && !cM.equals("") ? cM: "");
     preparedStatement1.setString(14, cStage != null && !cStage.equals("") ? cStage: "");
-    preparedStatement1.setString(15, Recurrence != null && !Recurrence.equals("") ? Recurrence: "");
-    preparedStatement1.setString(16, VitalStatus != null && !VitalStatus.equals("") ? VitalStatus: "");
+    preparedStatement1.setInt(15, Recurrence != null && Recurrence != null ? 1 : 0);
+    preparedStatement1.setInt(16, VitalStatus != null && VitalStatus != null ? 1 : 0);
     preparedStatement1.setTimestamp(17, createdDate != null && createdDate!= null && !createdDate.equals("") ? timestamp1.valueOf(createdDate): timestamp1);
     preparedStatement1.setInt(18, UserID != null && !UserID.equals("") ? Integer.parseInt(UserID): 0);
     preparedStatement1.setString(19, sessionUpdateID);

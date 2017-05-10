@@ -10,6 +10,7 @@
             String message = "Successful.";
 
     		public String DataTypeName = "";
+    		public Timestamp createdDate = new Timestamp((new java.util.Date()).getTime());
     		public int UserID = 0;
                
             
@@ -68,6 +69,7 @@
 	while(Recordset1.next()){
 	    responseClass responseClass1 = new responseClass();
     	responseClass1.DataTypeName =  Recordset1.getString("DataTypeName");
+    	responseClass1.createdDate = Recordset1.getString("createdDate") != null? timestamp1.valueOf(Recordset1.getString("createdDate")): null;
     	responseClass1.UserID = Recordset1.getInt("UserID");
     	collection.add(responseClass1);
     	resultFound = true;    }       

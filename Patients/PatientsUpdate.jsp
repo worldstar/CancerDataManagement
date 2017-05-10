@@ -55,11 +55,12 @@ $().ready(function () {
                maxlength: 5,
                 digits: true 
           },
-          createdDate:{
-                 required: true,
-               maxlength: 21
-          },
-
+,
+          UserID:{
+             required: true,
+               maxlength: 5,
+                digits: true 
+          }
         },
         messages: {
            RepresentName:{
@@ -85,11 +86,12 @@ $().ready(function () {
                 maxlength: "No more than 5 characters",
                 digits: "  Digits" 
           },
-           createdDate:{
+,
+           UserID:{
              required:"Required",
-                maxlength: "No more than 21 characters"
-          },
-     
+                maxlength: "No more than 5 characters",
+                digits: "  Digits" 
+          }     
         }
     });
 });
@@ -117,7 +119,14 @@ $().ready(function () {
             </thead>
             
             <tbody>   
-    			          <tr>
+    			
+<%
+   if(session.getAttribute("UID")  == null  
+        || !Recordset1.getString("UserID").equals((String) session.getAttribute("UID"))){
+      if(ConnRecordset1 != null) ConnRecordset1.close();
+         response.sendRedirect("../notFound.jsp");
+   }
+%>          <tr>
             <td>RepresentName*</td>
            <td><input name="RepresentName" type="text" id="RepresentName" size="30" value="<%=Recordset1.getObject("RepresentName")%>" /></td>
            </tr>
@@ -174,23 +183,6 @@ while(CountryIDRecordset1.next()){
 %>
 </select> <a href='../Country/CountryMain.jsp' target='_blank'>Add</a></td>
          </tr>
- 
-<script>
-$(function() {
-   //$( "#CreateDate" ).datepicker();
-   //$( "#CreateDate" ).datetimepicker();
-   var opt={dateFormat: 'yy-mm-dd',
-             hourMin: 6,
-            hourMax: 24,
-             showSecond: true,
-             timeFormat: 'HH:mm:ss'
-    };   
-   $("#createdDate").datetimepicker(opt);
-});
-</script>          <tr>
-            <td>createdDate*</td>
-           <td><input name="createdDate" type="text" id="createdDate" size="30" value="<%=Recordset1.getObject("createdDate")%>"/></td>
-           </tr>
         
             </tbody>               
         </table>      

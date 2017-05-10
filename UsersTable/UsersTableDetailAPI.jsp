@@ -11,7 +11,9 @@
     		public String UserName = "";
     		public String UserAccount = "";
     		public String Userpassword = "";
+    		public Timestamp createdDate = new Timestamp(date.getTime());
     		public int CreatedUserID = 0;
+    		public int isValidated = 0;
                
             
             public void setMessage(String msg){
@@ -46,7 +48,9 @@
 	responseClass1.UserName =  Recordset1.getString("UserName");
 	responseClass1.UserAccount =  Recordset1.getString("UserAccount");
 	responseClass1.Userpassword =  Recordset1.getString("Userpassword");
+    	responseClass1.createdDate = Recordset1.getString("createdDate") != null? timestamp1.valueOf(Recordset1.getString("createdDate")): null;
 	responseClass1.CreatedUserID = Recordset1.getInt("CreatedUserID");
+	responseClass1.isValidated = Recordset1.getInt("isValidated");
        
     
     ConnRecordset1.close();  

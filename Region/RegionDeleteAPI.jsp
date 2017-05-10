@@ -12,7 +12,15 @@
 <%
 	String RegionID = request.getParameter("RegionID");
     
-    
+    PreparedStatement selectStatement1 = ConnRecordset1.prepareStatement("select * from Region where RegionID = ?;");
+    selectStatement1.setString(1, RegionID);
+    ResultSet Recordset1 = selectStatement1.executeQuery();
+    Recordset1.next();
+   if(session.getAttribute("UID") == null || !Recordset1.getString("UserID").equals((String) session.getAttribute("UID"))){
+      if(ConnRecordset1 != null) ConnRecordset1.close();
+      response.sendRedirect("../notFound.jsp");
+   }
+
     
     String sql = "Delete from Region where RegionID = ?";       
 

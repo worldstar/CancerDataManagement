@@ -11,6 +11,7 @@
 
     		public String RegionName = "";
     		public int CountryID = 0;
+    		public Timestamp createdDate = new Timestamp((new java.util.Date()).getTime());
     		public int UserID = 0;
                
             
@@ -70,6 +71,7 @@
 	    responseClass responseClass1 = new responseClass();
     	responseClass1.RegionName =  Recordset1.getString("RegionName");
     	responseClass1.CountryID = Recordset1.getInt("CountryID");
+    	responseClass1.createdDate = Recordset1.getString("createdDate") != null? timestamp1.valueOf(Recordset1.getString("createdDate")): null;
     	responseClass1.UserID = Recordset1.getInt("UserID");
     	collection.add(responseClass1);
     	resultFound = true;    }       

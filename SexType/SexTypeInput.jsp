@@ -22,22 +22,24 @@ $().ready(function () {
   			    required: true,
   			    maxlength: 10
 			},
-			createdDate:{
-  			    required: true,
-  			    maxlength: 8
-			},
-
+,
+			UserID:{
+	  		    required: true,
+  			    maxlength: 5,
+   			    digits: true 
+			}
         },
         messages: {
 			SexTypeName:{
 	  		    required:"Required",
 			    maxlength: "No more than 10 characters"
 			},
-			createdDate:{
+,
+			UserID:{
 	  		    required:"Required",
-			    maxlength: "No more than 8 characters"
-			},
-                 
+			    maxlength: "No more than 5 characters",
+ 	  		    digits: "  Digits" 
+			}                 
         }
     });
 });
@@ -69,10 +71,12 @@ $().ready(function () {
     		  <td>SexTypeName*</td>
     		  <td><input name="SexTypeName" type="text" id="SexTypeName" size="30" /></td>
     		</tr>
-    		<tr>
-    		  <td>createdDate*</td>
-    		  <td><input name="createdDate" type="text" id="createdDate" size="30" /></td>
-    		</tr>
+<%
+    if(session.getAttribute("UID") == null){
+      ConnRecordset1.close();
+      response.sendRedirect("../notFound.jsp");
+    }
+%>
      
             </tbody>      
         </table>          

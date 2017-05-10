@@ -36,22 +36,24 @@ $().ready(function () {
                  required: true,
                maxlength: 50
           },
-          createdDate:{
-                 required: true,
-               maxlength: 8
-          },
-
+,
+          UserID:{
+             required: true,
+               maxlength: 5,
+                digits: true 
+          }
         },
         messages: {
            StatisticName:{
              required:"Required",
                 maxlength: "No more than 50 characters"
           },
-           createdDate:{
+,
+           UserID:{
              required:"Required",
-                maxlength: "No more than 8 characters"
-          },
-     
+                maxlength: "No more than 5 characters",
+                digits: "  Digits" 
+          }     
         }
     });
 });
@@ -79,13 +81,16 @@ $().ready(function () {
             </thead>
             
             <tbody>   
-    			          <tr>
+    			
+<%
+   if(session.getAttribute("UID")  == null  
+        || !Recordset1.getString("UserID").equals((String) session.getAttribute("UID"))){
+      if(ConnRecordset1 != null) ConnRecordset1.close();
+         response.sendRedirect("../notFound.jsp");
+   }
+%>          <tr>
             <td>StatisticName*</td>
            <td><input name="StatisticName" type="text" id="StatisticName" size="30" value="<%=Recordset1.getObject("StatisticName")%>" /></td>
-           </tr>
-          <tr>
-            <td>createdDate*</td>
-           <td><input name="createdDate" type="text" id="createdDate" size="30" value="<%=Recordset1.getObject("createdDate")%>" /></td>
            </tr>
         
             </tbody>               

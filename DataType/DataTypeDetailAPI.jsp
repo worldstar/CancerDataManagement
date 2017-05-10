@@ -9,6 +9,7 @@
 
     		java.util.Date date= new java.util.Date();
     		public String DataTypeName = "";
+    		public Timestamp createdDate = new Timestamp(date.getTime());
     		public int UserID = 0;
                
             
@@ -42,6 +43,7 @@
     java.util.Date date= new java.util.Date();	
 	Timestamp timestamp1 = new Timestamp(date.getTime());   
 	responseClass1.DataTypeName =  Recordset1.getString("DataTypeName");
+    	responseClass1.createdDate = Recordset1.getString("createdDate") != null? timestamp1.valueOf(Recordset1.getString("createdDate")): null;
 	responseClass1.UserID = Recordset1.getInt("UserID");
        
     

@@ -5,7 +5,15 @@
 <%
 	String UserID = request.getParameter("UserID");
     
-    
+    PreparedStatement selectStatement1 = ConnRecordset1.prepareStatement("select * from UsersTable where UserID = ?;");
+    selectStatement1.setString(1, UserID);
+    ResultSet Recordset1 = selectStatement1.executeQuery();
+    Recordset1.next();
+   if(session.getAttribute("UID") == null || !Recordset1.getString("CreatedUserID").equals((String) session.getAttribute("UID"))){
+      if(ConnRecordset1 != null) ConnRecordset1.close();
+      response.sendRedirect("../notFound.jsp");
+   }
+
     
     String sql = "Delete from UsersTable where UserID = ?";       
 

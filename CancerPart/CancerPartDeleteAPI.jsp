@@ -12,7 +12,15 @@
 <%
 	String CancerPartID = request.getParameter("CancerPartID");
     
-    
+    PreparedStatement selectStatement1 = ConnRecordset1.prepareStatement("select * from CancerPart where CancerPartID = ?;");
+    selectStatement1.setString(1, CancerPartID);
+    ResultSet Recordset1 = selectStatement1.executeQuery();
+    Recordset1.next();
+   if(session.getAttribute("UID") == null || !Recordset1.getString("UserID").equals((String) session.getAttribute("UID"))){
+      if(ConnRecordset1 != null) ConnRecordset1.close();
+      response.sendRedirect("../notFound.jsp");
+   }
+
     
     String sql = "Delete from CancerPart where CancerPartID = ?";       
 

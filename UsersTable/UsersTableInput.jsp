@@ -30,19 +30,13 @@ $().ready(function () {
   			    required: true,
   			    maxlength: 50
 			},
-			createdDate:{
-  			    required: true,
-  			    maxlength: 8
-			},
+,
 			CreatedUserID:{
 	  		    required: true,
   			    maxlength: 11,
    			    digits: true 
 			},
-			isValidated:{
-  			    required: true,
-  			    maxlength: 3
-			}
+
         },
         messages: {
 			UserName:{
@@ -57,19 +51,13 @@ $().ready(function () {
 	  		    required:"Required",
 			    maxlength: "No more than 50 characters"
 			},
-			createdDate:{
-	  		    required:"Required",
-			    maxlength: "No more than 8 characters"
-			},
+,
 			CreatedUserID:{
 	  		    required:"Required",
 			    maxlength: "No more than 11 characters",
  	  		    digits: "  Digits" 
 			},
-			isValidated:{
-	  		    required:"Required",
-			    maxlength: "No more than 3 characters"
-			}                 
+                 
         }
     });
 });
@@ -109,18 +97,12 @@ $().ready(function () {
     		  <td>Userpassword*</td>
     		  <td><input name="Userpassword" type="text" id="Userpassword" size="30" /></td>
     		</tr>
-    		<tr>
-    		  <td>createdDate*</td>
-    		  <td><input name="createdDate" type="text" id="createdDate" size="30" /></td>
-    		</tr>
-    		<tr>
-    		  <td>CreatedUserID*</td>
-    		  <td><input name="CreatedUserID" type="text" id="CreatedUserID" size="30" /></td>
-    		</tr>
-    		<tr>
-    		  <td>isValidated*</td>
-    		  <td><input name="isValidated" type="text" id="isValidated" size="30" /></td>
-    		</tr>
+<%
+    if(session.getAttribute("UID") == null){
+      ConnRecordset1.close();
+      response.sendRedirect("../notFound.jsp");
+    }
+%>
      
             </tbody>      
         </table>          

@@ -41,11 +41,12 @@ $().ready(function () {
                maxlength: 5,
                 digits: true 
           },
-          createdDate:{
-                 required: true,
-               maxlength: 8
-          },
-
+,
+          UserID:{
+             required: true,
+               maxlength: 5,
+                digits: true 
+          }
         },
         messages: {
            RegionName:{
@@ -57,11 +58,12 @@ $().ready(function () {
                 maxlength: "No more than 5 characters",
                 digits: "  Digits" 
           },
-           createdDate:{
+,
+           UserID:{
              required:"Required",
-                maxlength: "No more than 8 characters"
-          },
-     
+                maxlength: "No more than 5 characters",
+                digits: "  Digits" 
+          }     
         }
     });
 });
@@ -89,7 +91,14 @@ $().ready(function () {
             </thead>
             
             <tbody>   
-    			          <tr>
+    			
+<%
+   if(session.getAttribute("UID")  == null  
+        || !Recordset1.getString("UserID").equals((String) session.getAttribute("UID"))){
+      if(ConnRecordset1 != null) ConnRecordset1.close();
+         response.sendRedirect("../notFound.jsp");
+   }
+%>          <tr>
             <td>RegionName*</td>
            <td><input name="RegionName" type="text" id="RegionName" size="30" value="<%=Recordset1.getObject("RegionName")%>" /></td>
            </tr>
@@ -109,10 +118,6 @@ while(CountryIDRecordset1.next()){
 %>
 </select> <a href='../Country/CountryMain.jsp' target='_blank'>Add</a></td>
          </tr>
-          <tr>
-            <td>createdDate*</td>
-           <td><input name="createdDate" type="text" id="createdDate" size="30" value="<%=Recordset1.getObject("createdDate")%>" /></td>
-           </tr>
         
             </tbody>               
         </table>      

@@ -22,6 +22,8 @@
     		public String cN = "";
     		public String cM = "";
     		public String cStage = "";
+    		public int Recurrence = 0;
+    		public int VitalStatus = 0;
     		public Timestamp createdDate = new Timestamp(date.getTime());
     		public int UserID = 0;
                
@@ -69,6 +71,8 @@
 	responseClass1.cN =  Recordset1.getString("cN");
 	responseClass1.cM =  Recordset1.getString("cM");
 	responseClass1.cStage =  Recordset1.getString("cStage");
+	responseClass1.Recurrence = Recordset1.getInt("Recurrence");
+	responseClass1.VitalStatus = Recordset1.getInt("VitalStatus");
     	responseClass1.createdDate = Recordset1.getString("createdDate") != null? timestamp1.valueOf(Recordset1.getString("createdDate")): null;
 	responseClass1.UserID = Recordset1.getInt("UserID");
        

@@ -17,10 +17,16 @@
 
     PreparedStatement preparedStatement1 = ConnRecordset1.prepareStatement(sql);
     //Set the data into the prepare statement
+
+    if(session.getAttribute("UID") == null){
+      ConnRecordset1.close();
+      response.sendRedirect("../notFound.jsp");
+    }
+
     preparedStatement1.setString(1, RegionName != null && !RegionName.equals("") ? RegionName: "");
     preparedStatement1.setInt(2, CountryID != null && !CountryID.equals("") ? Integer.parseInt(CountryID): 0);
-    preparedStatement1.setString(3, createdDate != null && !createdDate.equals("") ? createdDate: "");
-    preparedStatement1.setInt(4, UserID != null && !UserID.equals("") ? Integer.parseInt(UserID): 0);
+    preparedStatement1.setTimestamp(3, createdDate != null && createdDate!= null && !createdDate.equals("") ? timestamp1.valueOf(createdDate): timestamp1);
+    preparedStatement1.setInt(4, Integer.parseInt((String) session.getAttribute("UID")));
 
     
     preparedStatement1.executeUpdate();

@@ -12,7 +12,15 @@
 <%
 	String CancerGroupID = request.getParameter("CancerGroupID");
     
-    
+    PreparedStatement selectStatement1 = ConnRecordset1.prepareStatement("select * from CancerGroup where CancerGroupID = ?;");
+    selectStatement1.setString(1, CancerGroupID);
+    ResultSet Recordset1 = selectStatement1.executeQuery();
+    Recordset1.next();
+   if(session.getAttribute("UID") == null || !Recordset1.getString("UserID").equals((String) session.getAttribute("UID"))){
+      if(ConnRecordset1 != null) ConnRecordset1.close();
+      response.sendRedirect("../notFound.jsp");
+   }
+
     
     String sql = "Delete from CancerGroup where CancerGroupID = ?";       
 

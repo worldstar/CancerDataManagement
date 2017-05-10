@@ -19,12 +19,18 @@
 
     PreparedStatement preparedStatement1 = ConnRecordset1.prepareStatement(sql);
     //Set the data into the prepare statement
+
+    if(session.getAttribute("UID") == null){
+      ConnRecordset1.close();
+      response.sendRedirect("../notFound.jsp");
+    }
+
     preparedStatement1.setString(1, UserName != null && !UserName.equals("") ? UserName: "");
     preparedStatement1.setString(2, UserAccount != null && !UserAccount.equals("") ? UserAccount: "");
     preparedStatement1.setString(3, Userpassword != null && !Userpassword.equals("") ? Userpassword: "");
-    preparedStatement1.setString(4, createdDate != null && !createdDate.equals("") ? createdDate: "");
-    preparedStatement1.setInt(5, CreatedUserID != null && !CreatedUserID.equals("") ? Integer.parseInt(CreatedUserID): 0);
-    preparedStatement1.setString(6, isValidated != null && !isValidated.equals("") ? isValidated: "");
+    preparedStatement1.setTimestamp(4, createdDate != null && createdDate!= null && !createdDate.equals("") ? timestamp1.valueOf(createdDate): timestamp1);
+    preparedStatement1.setInt(5, Integer.parseInt((String) session.getAttribute("UID")));
+    preparedStatement1.setInt(6, isValidated != null && isValidated != null ? 1 : 0);
 
     
     preparedStatement1.executeUpdate();

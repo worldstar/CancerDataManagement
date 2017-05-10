@@ -10,6 +10,7 @@
     		java.util.Date date= new java.util.Date();
     		public String RegionName = "";
     		public int CountryID = 0;
+    		public Timestamp createdDate = new Timestamp(date.getTime());
     		public int UserID = 0;
                
             
@@ -44,6 +45,7 @@
 	Timestamp timestamp1 = new Timestamp(date.getTime());   
 	responseClass1.RegionName =  Recordset1.getString("RegionName");
 	responseClass1.CountryID = Recordset1.getInt("CountryID");
+    	responseClass1.createdDate = Recordset1.getString("createdDate") != null? timestamp1.valueOf(Recordset1.getString("createdDate")): null;
 	responseClass1.UserID = Recordset1.getInt("UserID");
        
     

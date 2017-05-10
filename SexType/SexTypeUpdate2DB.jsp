@@ -22,8 +22,8 @@
     PreparedStatement preparedStatement1 = ConnRecordset1.prepareStatement(sql);
     //Set the data into the prepare statement
     preparedStatement1.setString(1, SexTypeName != null && !SexTypeName.equals("") ? SexTypeName: "");
-    preparedStatement1.setString(2, createdDate != null && !createdDate.equals("") ? createdDate: "");
-    preparedStatement1.setInt(3, UserID != null && !UserID.equals("") ? Integer.parseInt(UserID): 0);
+    preparedStatement1.setTimestamp(2, createdDate != null && createdDate!= null && !createdDate.equals("") ? timestamp1.valueOf(createdDate): timestamp1);
+    preparedStatement1.setInt(3, Integer.parseInt((String) session.getAttribute("UID")));
     preparedStatement1.setString(4, sessionUpdateID);
 
     

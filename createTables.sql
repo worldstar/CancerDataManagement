@@ -1,4 +1,4 @@
-use x2017jzo5TodOqdZV8bFybxiQeovH2;
+use test;
 
 CREATE TABLE `CancerGroup` (
 `CancerGroupID` int(6) NOT NULL AUTO_INCREMENT,
@@ -56,8 +56,8 @@ CREATE TABLE `Diagnosis` (
 `cN` varchar(5) NOT NULL ,
 `cM` varchar(5) NOT NULL ,
 `cStage` varchar(5) NOT NULL ,
-`Recurrence` tinyint(3) unsigned NOT NULL,
-`VitalStatus` tinyint(3) unsigned NOT NULL,
+`Recurrence` tinyint(3) NOT NULL,
+`VitalStatus` tinyint(3) NOT NULL,
 `createdDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 `UserID` int(5) NOT NULL,
 PRIMARY KEY (`DiagnosisID`),
@@ -129,6 +129,6 @@ CREATE TABLE `UsersTable` (
 `Userpassword` varchar(50) NOT NULL ,
 `createdDate` TIMESTAMP NOT NULL ,
 `CreatedUserID` int(11) NOT NULL ,
-`isValidated` tinyint(3) unsigned NOT NULL,
+`isValidated` tinyint(3) NOT NULL,
 PRIMARY KEY (`UserID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

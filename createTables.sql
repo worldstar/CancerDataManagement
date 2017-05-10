@@ -1,7 +1,9 @@
+use x2017jzo5TodOqdZV8bFybxiQeovH2;
+
 CREATE TABLE `CancerGroup` (
 `CancerGroupID` int(6) NOT NULL AUTO_INCREMENT,
 `CancerGroupName` varchar(20) NOT NULL ,
-`createdDate` binary(8) NOT NULL ,
+`createdDate` TIMESTAMP NOT NULL ,
 `UserID` int(5) NOT NULL ,
 PRIMARY KEY (`CancerGroupID`),
 KEY `cancergroup_ibfk_1` (`UserID`),
@@ -11,7 +13,7 @@ CONSTRAINT `cancergroup_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `UsersTable` (
 CREATE TABLE `CancerPart` (
 `CancerPartID` int(6) NOT NULL AUTO_INCREMENT,
 `CancerPartName` varchar(20) NOT NULL ,
-`createdDate` binary(8) NOT NULL ,
+`createdDate` TIMESTAMP NOT NULL ,
 `UserID` int(5) NOT NULL ,
 PRIMARY KEY (`CancerPartID`),
 KEY `CancerPart_ibfk_1` (`UserID`),
@@ -21,7 +23,7 @@ CONSTRAINT `CancerPart_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `UsersTable` (`
 CREATE TABLE `Country` (
 `CountryID` int(5) NOT NULL AUTO_INCREMENT,
 `CountryName` varchar(20) NOT NULL ,
-`createdDate` binary(8) NOT NULL ,
+`createdDate` TIMESTAMP NOT NULL ,
 `UserID` int(5) NOT NULL ,
 PRIMARY KEY (`CountryID`),
 KEY `Country_ibfk_1` (`UserID`),
@@ -31,7 +33,7 @@ CONSTRAINT `Country_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `UsersTable` (`Use
 CREATE TABLE `DataType` (
 `DataTypeID` int(6) NOT NULL AUTO_INCREMENT,
 `DataTypeName` varchar(20) NOT NULL ,
-`createdDate` binary(8) NOT NULL ,
+`createdDate` TIMESTAMP NOT NULL ,
 `UserID` int(5) NOT NULL ,
 PRIMARY KEY (`DataTypeID`),
 KEY `DataType_ibfk_1` (`UserID`),
@@ -91,7 +93,7 @@ CREATE TABLE `Region` (
 `RegionID` int(1) NOT NULL AUTO_INCREMENT,
 `RegionName` varchar(10) NOT NULL ,
 `CountryID` int(5) NOT NULL ,
-`createdDate` binary(8) NOT NULL ,
+`createdDate` TIMESTAMP NOT NULL ,
 `UserID` int(5) NOT NULL ,
 PRIMARY KEY (`RegionID`),
 KEY `Region_ibfk_1` (`UserID`),
@@ -103,7 +105,7 @@ CONSTRAINT `Region_ibfk_2` FOREIGN KEY (`CountryID`) REFERENCES `Country` (`Coun
 CREATE TABLE `SexType` (
 `SexTypeID` int(1) NOT NULL AUTO_INCREMENT,
 `SexTypeName` varchar(10) NOT NULL ,
-`createdDate` binary(8) NOT NULL ,
+`createdDate` TIMESTAMP NOT NULL ,
 `UserID` int(5) NOT NULL ,
 PRIMARY KEY (`SexTypeID`),
 KEY `SexType_ibfk_1` (`UserID`),
@@ -113,7 +115,7 @@ CONSTRAINT `SexType_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `UsersTable` (`Use
 CREATE TABLE `Statistic` (
 `StatisticID` int(6) NOT NULL AUTO_INCREMENT,
 `StatisticName` varchar(50) NOT NULL ,
-`createdDate` binary(8) NOT NULL ,
+`createdDate` TIMESTAMP NOT NULL ,
 `UserID` int(5) NOT NULL ,
 PRIMARY KEY (`StatisticID`),
 KEY `Statistic_ibfk_1` (`UserID`),
@@ -125,7 +127,7 @@ CREATE TABLE `UsersTable` (
 `UserName` varchar(50) NOT NULL ,
 `UserAccount` varchar(50) NOT NULL ,
 `Userpassword` varchar(50) NOT NULL ,
-`createdDate` binary(8) NOT NULL ,
+`createdDate` TIMESTAMP NOT NULL ,
 `CreatedUserID` int(11) NOT NULL ,
 `isValidated` tinyint(3) unsigned NOT NULL,
 PRIMARY KEY (`UserID`)

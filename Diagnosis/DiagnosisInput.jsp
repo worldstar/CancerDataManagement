@@ -205,9 +205,21 @@ $().ready(function () {
     		  <td>DiagnosisName*</td>
     		  <td><input name="DiagnosisName" type="text" id="DiagnosisName" size="30" /></td>
     		</tr>
-    		<tr>
+    		
+<%
+PreparedStatement PatientsIDStatement = ConnRecordset1.prepareStatement("SELECT * FROM Patients order by PatientsID desc");
+ResultSet PatientsIDRecordset1 = PatientsIDStatement.executeQuery();
+%>    		<tr>
     		  <td>PatientsID*</td>
-    		  <td><input name="PatientsID" type="text" id="PatientsID" size="30" /></td>
+    		  <td><select name="PatientsID" id="PatientsID" >
+<% 
+while(PatientsIDRecordset1.next()){ 
+%>
+    		     <option value="<%=PatientsIDRecordset1.getString("PatientsID")%>" ><%=PatientsIDRecordset1.getString("RepresentName")%></option>
+<%  
+} 
+%>
+</select> <a href='../Patients/PatientsMain.jsp' target='_blank'>Add</a></td>
     		</tr>
     		
 <%

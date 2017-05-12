@@ -56,15 +56,17 @@ CREATE TABLE `Diagnosis` (
 `cN` varchar(5) NOT NULL ,
 `cM` varchar(5) NOT NULL ,
 `cStage` varchar(5) NOT NULL ,
-`Recurrence` tinyint(3) NOT NULL,
-`VitalStatus` tinyint(3) NOT NULL,
-`createdDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-`UserID` int(5) NOT NULL,
+`Recurrence` tinyint(3) NOT NULL ,
+`VitalStatus` tinyint(3) NOT NULL ,
+`createdDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP ,
+`UserID` int(5) NOT NULL ,
 PRIMARY KEY (`DiagnosisID`),
 KEY `Diagnosis_ibfk_3` (`DataTypeID`),
 KEY `Diagnosis_ibfk_1` (`CancerPartID`),
 KEY `Diagnosis_ibfk_2` (`StatisticID`),
 KEY `Diagnosis_ibfk_4` (`UserID`),
+KEY `Diagnosis_ibfk_5_idx` (`PatientsID`),
+CONSTRAINT `Diagnosis_ibfk_5` FOREIGN KEY (`PatientsID`) REFERENCES `Patients` (`PatientsID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
 CONSTRAINT `Diagnosis_ibfk_1` FOREIGN KEY (`CancerPartID`) REFERENCES `CancerPart` (`CancerPartID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
 CONSTRAINT `Diagnosis_ibfk_2` FOREIGN KEY (`StatisticID`) REFERENCES `Statistic` (`StatisticID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
 CONSTRAINT `Diagnosis_ibfk_3` FOREIGN KEY (`DataTypeID`) REFERENCES `DataType` (`DataTypeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -83,11 +85,12 @@ CREATE TABLE `Patients` (
 PRIMARY KEY (`PatientsID`),
 KEY `Patients_ibfk_1` (`SexTypeID`),
 KEY `Patients_ibfk_2` (`RegionID`),
-KEY `Patients_ibfk_3` (`CountryID`),
 KEY `Patients_ibfk_4` (`UserID`),
+KEY `Patients_ibfk_3_idx` (`CountryID`),
+CONSTRAINT `Patients_ibfk_4` FOREIGN KEY (`RegionID`) REFERENCES `Region` (`RegionID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
 CONSTRAINT `Patients_ibfk_1` FOREIGN KEY (`SexTypeID`) REFERENCES `SexType` (`SexTypeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
 CONSTRAINT `Patients_ibfk_3` FOREIGN KEY (`CountryID`) REFERENCES `Country` (`CountryID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `Region` (
 `RegionID` int(1) NOT NULL AUTO_INCREMENT,

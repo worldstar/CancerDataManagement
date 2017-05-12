@@ -47,7 +47,7 @@
     pageIndex pageIndex1 = new pageIndex();
         
     PreparedStatement StatementRecordset1 = 
-    ConnRecordset1.prepareStatement("SELECT count(*) FROM Diagnosis, CancerPart, Statistic, DataType, UsersTable where DiagnosisName like ? or SequenceNumber like ? or Histology like ? or BehaviorCode like ? or Differentiation like ? or TumorSize like ? or cT like ? or cN like ? or cM like ? or cStage like ?");
+    ConnRecordset1.prepareStatement("SELECT count(*) FROM Diagnosis, Patients, CancerPart, Statistic, DataType, UsersTable where DiagnosisName like ? or SequenceNumber like ? or Histology like ? or BehaviorCode like ? or Differentiation like ? or TumorSize like ? or cT like ? or cN like ? or cM like ? or cStage like ?");
             
     if(request.getParameter("startRecord") != null){//First entry       
         start = Integer.parseInt(request.getParameter("startRecord"));        
@@ -70,13 +70,13 @@
          totalRecords = CountRecordset1.getInt(1);               
     }
         
-    StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Diagnosis, CancerPart, Statistic, DataType, UsersTable where DiagnosisName like ? or SequenceNumber like ? or Histology like ? or BehaviorCode like ? or Differentiation like ? or TumorSize like ? or cT like ? or cN like ? or cM like ? or cStage like ? order by DiagnosisID limit "+start+","+showRecords+"; ");
+    StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Diagnosis, Patients, CancerPart, Statistic, DataType, UsersTable where DiagnosisName like ? or SequenceNumber like ? or Histology like ? or BehaviorCode like ? or Differentiation like ? or TumorSize like ? or cT like ? or cN like ? or cM like ? or cStage like ? order by DiagnosisID limit "+start+","+showRecords+"; ");
 
     if(dbServerProduct.equals("SQLServer2012")){
-      StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Diagnosis, CancerPart, Statistic, DataType, UsersTable where DiagnosisName like ? or SequenceNumber like ? or Histology like ? or BehaviorCode like ? or Differentiation like ? or TumorSize like ? or cT like ? or cN like ? or cM like ? or cStage like ? order by DiagnosisID desc OFFSET  "+start+" ROWS FETCH NEXT "+showRecords+" ROWS ONLY;");
+      StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Diagnosis, Patients, CancerPart, Statistic, DataType, UsersTable where DiagnosisName like ? or SequenceNumber like ? or Histology like ? or BehaviorCode like ? or Differentiation like ? or TumorSize like ? or cT like ? or cN like ? or cM like ? or cStage like ? order by DiagnosisID desc OFFSET  "+start+" ROWS FETCH NEXT "+showRecords+" ROWS ONLY;");
     }
     else if(dbServerProduct.equals("SQLServer2008")){
-      StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM (SELECT ROW_NUMBER() OVER ( ORDER BY DiagnosisID ) AS RowNum, * FROM Diagnosis, CancerPart, Statistic, DataType, UsersTable where DiagnosisName like ? or SequenceNumber like ? or Histology like ? or BehaviorCode like ? or Differentiation like ? or TumorSize like ? or cT like ? or cN like ? or cM like ? or cStage like ?) AS RowConstrainedResult where RowNum >= "+start+" and RowNum < "+(start+showRecords)+" ORDER BY RowNum; ");
+      StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM (SELECT ROW_NUMBER() OVER ( ORDER BY DiagnosisID ) AS RowNum, * FROM Diagnosis, Patients, CancerPart, Statistic, DataType, UsersTable where DiagnosisName like ? or SequenceNumber like ? or Histology like ? or BehaviorCode like ? or Differentiation like ? or TumorSize like ? or cT like ? or cN like ? or cM like ? or cStage like ?) AS RowConstrainedResult where RowNum >= "+start+" and RowNum < "+(start+showRecords)+" ORDER BY RowNum; ");
     }
 
         StatementRecordset1.setString(1, "%"+SearchContent+"%");

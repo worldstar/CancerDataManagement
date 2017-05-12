@@ -6,7 +6,7 @@
 <link type="text/css" rel="stylesheet" href="../stylesheets/style.css" /> 
 <%
 String DiagnosisID = request.getParameter("DiagnosisID");
-PreparedStatement StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Diagnosis, CancerPart, Statistic, DataType, UsersTable where DiagnosisID = ? and Diagnosis.UserID=UsersTable.UserID", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+PreparedStatement StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Diagnosis, Patients, CancerPart, Statistic, DataType, UsersTable where DiagnosisID = ? and Diagnosis.UserID=UsersTable.UserID", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 StatementRecordset1.setString(1, DiagnosisID);
 ResultSet Recordset1 = StatementRecordset1.executeQuery();
 ResultSetMetaData rsMetaData = Recordset1.getMetaData();
@@ -219,10 +219,22 @@ $().ready(function () {
             <td>DiagnosisName*</td>
            <td><input name="DiagnosisName" type="text" id="DiagnosisName" size="30" value="<%=Recordset1.getObject("DiagnosisName")%>" /></td>
            </tr>
-          <tr>
+           
+<%
+PreparedStatement PatientsIDStatement = ConnRecordset1.prepareStatement("SELECT * FROM Patients order by PatientsID desc");
+ResultSet PatientsIDRecordset1 = PatientsIDStatement.executeQuery();
+%>          <tr>
             <td>PatientsID*</td>
-           <td><input name="PatientsID" type="text" id="PatientsID" size="30" value="<%=Recordset1.getObject("PatientsID")%>" /></td>
-           </tr>
+           <td><select name="PatientsID" id="PatientsID" >
+<% 
+while(PatientsIDRecordset1.next()){ 
+%>
+              <option value="<%=PatientsIDRecordset1.getString("PatientsID")%>"   <%=PatientsIDRecordset1.getInt("PatientsID") == Recordset1.getInt("PatientsID") ? "selected": ""%>>                    <%=PatientsIDRecordset1.getString("RepresentName")%></option>
+<%  
+} 
+%>
+</select> <a href='../Patients/PatientsMain.jsp' target='_blank'>Add</a></td>
+         </tr>
            
 <%
 PreparedStatement CancerPartIDStatement = ConnRecordset1.prepareStatement("SELECT * FROM CancerPart order by CancerPartID desc");

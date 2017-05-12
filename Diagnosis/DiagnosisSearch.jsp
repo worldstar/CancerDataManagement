@@ -15,7 +15,7 @@
 	pageIndex pageIndex1 = new pageIndex();
 		
 	PreparedStatement StatementRecordset1 = 
-	ConnRecordset1.prepareStatement("SELECT count(*) FROM Diagnosis, CancerPart, Statistic, DataType, UsersTable where (DiagnosisName like ? or SequenceNumber like ? or Histology like ? or BehaviorCode like ? or Differentiation like ? or TumorSize like ? or cT like ? or cN like ? or cM like ? or cStage like ?) and Diagnosis.CancerPartID=CancerPart.CancerPartID and Diagnosis.StatisticID=Statistic.StatisticID and Diagnosis.DataTypeID=DataType.DataTypeID and Diagnosis.UserID=UsersTable.UserID");
+	ConnRecordset1.prepareStatement("SELECT count(*) FROM Diagnosis, Patients, CancerPart, Statistic, DataType, UsersTable where (DiagnosisName like ? or SequenceNumber like ? or Histology like ? or BehaviorCode like ? or Differentiation like ? or TumorSize like ? or cT like ? or cN like ? or cM like ? or cStage like ?) and Diagnosis.PatientsID=Patients.PatientsID and Diagnosis.CancerPartID=CancerPart.CancerPartID and Diagnosis.StatisticID=Statistic.StatisticID and Diagnosis.DataTypeID=DataType.DataTypeID and Diagnosis.UserID=UsersTable.UserID");
             
   if(request.getParameter("startRecord") != null){//First entry		
   	start = Integer.parseInt(request.getParameter("startRecord"));		  
@@ -38,13 +38,13 @@
        totalRecords = CountRecordset1.getInt(1);               
   }
       
-  StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Diagnosis, CancerPart, Statistic, DataType, UsersTable where (DiagnosisName like ? or SequenceNumber like ? or Histology like ? or BehaviorCode like ? or Differentiation like ? or TumorSize like ? or cT like ? or cN like ? or cM like ? or cStage like ?) and Diagnosis.CancerPartID=CancerPart.CancerPartID and Diagnosis.StatisticID=Statistic.StatisticID and Diagnosis.DataTypeID=DataType.DataTypeID and Diagnosis.UserID=UsersTable.UserID order by DiagnosisID limit "+start+","+showRecords+"; ");
+  StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Diagnosis, Patients, CancerPart, Statistic, DataType, UsersTable where (DiagnosisName like ? or SequenceNumber like ? or Histology like ? or BehaviorCode like ? or Differentiation like ? or TumorSize like ? or cT like ? or cN like ? or cM like ? or cStage like ?) and Diagnosis.PatientsID=Patients.PatientsID and Diagnosis.CancerPartID=CancerPart.CancerPartID and Diagnosis.StatisticID=Statistic.StatisticID and Diagnosis.DataTypeID=DataType.DataTypeID and Diagnosis.UserID=UsersTable.UserID order by DiagnosisID limit "+start+","+showRecords+"; ");
 
   if(dbServerProduct.equals("SQLServer2012")){
-    StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Diagnosis, CancerPart, Statistic, DataType, UsersTable where (DiagnosisName like ? or SequenceNumber like ? or Histology like ? or BehaviorCode like ? or Differentiation like ? or TumorSize like ? or cT like ? or cN like ? or cM like ? or cStage like ?) and Diagnosis.CancerPartID=CancerPart.CancerPartID and Diagnosis.StatisticID=Statistic.StatisticID and Diagnosis.DataTypeID=DataType.DataTypeID and Diagnosis.UserID=UsersTable.UserID order by DiagnosisID desc OFFSET  "+start+" ROWS FETCH NEXT "+showRecords+" ROWS ONLY;");
+    StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Diagnosis, Patients, CancerPart, Statistic, DataType, UsersTable where (DiagnosisName like ? or SequenceNumber like ? or Histology like ? or BehaviorCode like ? or Differentiation like ? or TumorSize like ? or cT like ? or cN like ? or cM like ? or cStage like ?) and Diagnosis.PatientsID=Patients.PatientsID and Diagnosis.CancerPartID=CancerPart.CancerPartID and Diagnosis.StatisticID=Statistic.StatisticID and Diagnosis.DataTypeID=DataType.DataTypeID and Diagnosis.UserID=UsersTable.UserID order by DiagnosisID desc OFFSET  "+start+" ROWS FETCH NEXT "+showRecords+" ROWS ONLY;");
   }
   else if(dbServerProduct.equals("SQLServer2008")){
-    StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM (SELECT ROW_NUMBER() OVER ( ORDER BY DiagnosisID ) AS RowNum, * FROM Diagnosis, CancerPart, Statistic, DataType, UsersTable where (DiagnosisName like ? or SequenceNumber like ? or Histology like ? or BehaviorCode like ? or Differentiation like ? or TumorSize like ? or cT like ? or cN like ? or cM like ? or cStage like ?) and Diagnosis.CancerPartID=CancerPart.CancerPartID and Diagnosis.StatisticID=Statistic.StatisticID and Diagnosis.DataTypeID=DataType.DataTypeID and Diagnosis.UserID=UsersTable.UserID) AS RowConstrainedResult where RowNum >= "+start+" and RowNum < "+(start+showRecords)+" ORDER BY RowNum; ");
+    StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM (SELECT ROW_NUMBER() OVER ( ORDER BY DiagnosisID ) AS RowNum, * FROM Diagnosis, Patients, CancerPart, Statistic, DataType, UsersTable where (DiagnosisName like ? or SequenceNumber like ? or Histology like ? or BehaviorCode like ? or Differentiation like ? or TumorSize like ? or cT like ? or cN like ? or cM like ? or cStage like ?) and Diagnosis.PatientsID=Patients.PatientsID and Diagnosis.CancerPartID=CancerPart.CancerPartID and Diagnosis.StatisticID=Statistic.StatisticID and Diagnosis.DataTypeID=DataType.DataTypeID and Diagnosis.UserID=UsersTable.UserID) AS RowConstrainedResult where RowNum >= "+start+" and RowNum < "+(start+showRecords)+" ORDER BY RowNum; ");
   }
 
       StatementRecordset1.setString(1, "%"+SearchContent+"%");
@@ -109,6 +109,7 @@ $().ready(function () {
             <tr>	
                 <th>DiagnosisName*</th>
                 <th>PatientsID*</th>
+                <th>RepresentName</th>
                 <th>CancerPartID*</th>
                 <th>CancerPartName</th>
                 <th>StatisticID*</th>
@@ -145,6 +146,7 @@ $().ready(function () {
 <tr>
 				<td> <%=Recordset1.getObject("DiagnosisName") %> </td>
 				<td> <%=Recordset1.getObject("PatientsID") %> </td>
+				<td> <%=Recordset1.getObject("RepresentName") %> </td>
 				<td> <%=Recordset1.getObject("CancerPartID") %> </td>
 				<td> <%=Recordset1.getObject("CancerPartName") %> </td>
 				<td> <%=Recordset1.getObject("StatisticID") %> </td>

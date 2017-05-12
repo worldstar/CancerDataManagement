@@ -25,14 +25,14 @@
         totalRecords = CountRecordset1.getInt(1);                
     }    
 	
-PreparedStatement StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Patients, SexType, Country where Patients.SexTypeID=SexType.SexTypeID and Patients.CountryID=Country.CountryID order by PatientsID desc limit "+start+","+showRecords+"; ");
+PreparedStatement StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Patients, Region, SexType, Country where Patients.RegionID=Region.RegionID and Patients.SexTypeID=SexType.SexTypeID and Patients.CountryID=Country.CountryID order by PatientsID desc limit "+start+","+showRecords+"; ");
 
 
 if(dbServerProduct.equals("SQLServer2012")){
-  StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Patients, SexType, Country where Patients.SexTypeID=SexType.SexTypeID and Patients.CountryID=Country.CountryID order by PatientsID desc OFFSET  "+start+" ROWS FETCH NEXT "+showRecords+" ROWS ONLY;");
+  StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Patients, Region, SexType, Country where Patients.RegionID=Region.RegionID and Patients.SexTypeID=SexType.SexTypeID and Patients.CountryID=Country.CountryID order by PatientsID desc OFFSET  "+start+" ROWS FETCH NEXT "+showRecords+" ROWS ONLY;");
 }
 else if(dbServerProduct.equals("SQLServer2008")){
-  StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM (SELECT ROW_NUMBER() OVER ( ORDER BY PatientsID ) AS RowNum, * FROM Patients, SexType, Country where Patients.SexTypeID=SexType.SexTypeID and Patients.CountryID=Country.CountryID) AS RowConstrainedResult where RowNum >= "+start+" and RowNum < "+(start+showRecords)+" ORDER BY RowNum; ");
+  StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM (SELECT ROW_NUMBER() OVER ( ORDER BY PatientsID ) AS RowNum, * FROM Patients, Region, SexType, Country where Patients.RegionID=Region.RegionID and Patients.SexTypeID=SexType.SexTypeID and Patients.CountryID=Country.CountryID) AS RowConstrainedResult where RowNum >= "+start+" and RowNum < "+(start+showRecords)+" ORDER BY RowNum; ");
 }
 
 ResultSet Recordset1 = StatementRecordset1.executeQuery();
@@ -117,6 +117,7 @@ function deleteOnClick(_address){
                 <th>SexTypeName</th>
                 <th>DateOfBirth*</th>
                 <th>RegionID*</th>
+                <th>RegionName</th>
                 <th>CountryID*</th>
                 <th>CountryName</th>
                 <th>createdDate*</th>
@@ -141,6 +142,7 @@ function deleteOnClick(_address){
 				<td> <%=Recordset1.getObject("SexTypeName") %> </td>
 				<td> <%=Recordset1.getObject("DateOfBirth") %> </td>
 				<td> <%=Recordset1.getObject("RegionID") %> </td>
+				<td> <%=Recordset1.getObject("RegionName") %> </td>
 				<td> <%=Recordset1.getObject("CountryID") %> </td>
 				<td> <%=Recordset1.getObject("CountryName") %> </td>
 				<td> <%=Recordset1.getObject("createdDate") %> </td>

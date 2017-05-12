@@ -142,9 +142,21 @@ $(function() {
     		  <td>DateOfBirth*</td>
     		  <td><input name="DateOfBirth" type="text" id="DateOfBirth" size="30" /></td>
     		</tr>
-    		<tr>
+    		
+<%
+PreparedStatement RegionIDStatement = ConnRecordset1.prepareStatement("SELECT * FROM Region order by RegionID desc");
+ResultSet RegionIDRecordset1 = RegionIDStatement.executeQuery();
+%>    		<tr>
     		  <td>RegionID*</td>
-    		  <td><input name="RegionID" type="text" id="RegionID" size="30" /></td>
+    		  <td><select name="RegionID" id="RegionID" >
+<% 
+while(RegionIDRecordset1.next()){ 
+%>
+    		     <option value="<%=RegionIDRecordset1.getString("RegionID")%>" ><%=RegionIDRecordset1.getString("RegionName")%></option>
+<%  
+} 
+%>
+</select> <a href='../Region/RegionMain.jsp' target='_blank'>Add</a></td>
     		</tr>
     		
 <%

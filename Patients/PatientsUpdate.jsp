@@ -6,7 +6,7 @@
 <link type="text/css" rel="stylesheet" href="../stylesheets/style.css" /> 
 <%
 String PatientsID = request.getParameter("PatientsID");
-PreparedStatement StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Patients, SexType, Country where PatientsID = ? and Patients.CountryID=Country.CountryID", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+PreparedStatement StatementRecordset1 = ConnRecordset1.prepareStatement("SELECT * FROM Patients, Region, SexType, Country where PatientsID = ? and Patients.CountryID=Country.CountryID", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 StatementRecordset1.setString(1, PatientsID);
 ResultSet Recordset1 = StatementRecordset1.executeQuery();
 ResultSetMetaData rsMetaData = Recordset1.getMetaData();
@@ -163,10 +163,22 @@ $(function() {
             <td>DateOfBirth*</td>
            <td><input name="DateOfBirth" type="text" id="DateOfBirth" size="30" value="<%=Recordset1.getObject("DateOfBirth")%>"/></td>
            </tr>
-          <tr>
+           
+<%
+PreparedStatement RegionIDStatement = ConnRecordset1.prepareStatement("SELECT * FROM Region order by RegionID desc");
+ResultSet RegionIDRecordset1 = RegionIDStatement.executeQuery();
+%>          <tr>
             <td>RegionID*</td>
-           <td><input name="RegionID" type="text" id="RegionID" size="30" value="<%=Recordset1.getObject("RegionID")%>" /></td>
-           </tr>
+           <td><select name="RegionID" id="RegionID" >
+<% 
+while(RegionIDRecordset1.next()){ 
+%>
+              <option value="<%=RegionIDRecordset1.getString("RegionID")%>"   <%=RegionIDRecordset1.getInt("RegionID") == Recordset1.getInt("RegionID") ? "selected": ""%>>                    <%=RegionIDRecordset1.getString("RegionName")%></option>
+<%  
+} 
+%>
+</select> <a href='../Region/RegionMain.jsp' target='_blank'>Add</a></td>
+         </tr>
            
 <%
 PreparedStatement CountryIDStatement = ConnRecordset1.prepareStatement("SELECT * FROM Country order by CountryID desc");
